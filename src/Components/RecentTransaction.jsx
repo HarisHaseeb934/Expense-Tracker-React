@@ -1,6 +1,20 @@
 import { IoSearchOutline } from "react-icons/io5";
 import RecentTableRow from "./RecentTableRow";
 
+const categories = {
+  "Salary & Payroll": { color: "#44c08c", bgColor: "#23372e" },
+  "Freelance & Contract": { color: "#44c08c", bgColor: "#23372e" },
+  "Investments & Dividends": { color: "#44c08c", bgColor: "#23372e" },
+  "Side Project & Sales": { color: "#44c08c", bgColor: "#23372e" },
+  Income: { color: "#44c08c", bgColor: "#23372e" },
+  "Food & Dining": { color: "#ac787c", bgColor: "#3d282a" },
+  Entertainment: { color: "#44c08c", bgColor: "#23372e" },
+  "Utilities & Bill": { color: "#abace4", bgColor: "#34333c" },
+  Transportation: { color: "#abace4", bgColor: "#34333c" },
+  Healthcare: { color: "#abace4", bgColor: "#34333c" },
+  "Other Expense": { color: "#ac787c", bgColor: "#3d282a" },
+};
+
 const RecentTransaction = () => {
   return (
     <div className="bg-surface-container-low p-5 rounded-md flex flex-col gap-4 col-span-full">
@@ -32,10 +46,34 @@ const RecentTransaction = () => {
           </tr>
         </thead>
         <tbody>
-          <RecentTableRow date={"10/20/2024"} title={"Haris"} category={"food"} type={"Debit"} amount={10000}/>
-          <RecentTableRow date={"10/20/2024"} title={"Haris"} category={"food"} type={"Debit"} amount={10000}/>
-          <RecentTableRow date={"10/20/2024"} title={"Haris"} category={"food"} type={"Debit"} amount={10000}/>
-          <RecentTableRow date={"10/20/2024"} title={"Haris"} category={"food"} type={"Debit"} amount={10000}/>
+          <RecentTableRow
+            date={"10/20/2024"}
+            title={"Haris"}
+            category={"food"}
+            type={"Debit"}
+            amount={10000}
+          />
+          <RecentTableRow
+            date={"10/20/2024"}
+            title={"Haris"}
+            category={"food"}
+            type={"Debit"}
+            amount={10000}
+          />
+          <RecentTableRow
+            date={"10/20/2024"}
+            title={"Haris"}
+            category={"food"}
+            type={"Debit"}
+            amount={10000}
+          />
+          <RecentTableRow
+            date={"10/20/2024"}
+            title={"Haris"}
+            category={"food"}
+            type={"Debit"}
+            amount={10000}
+          />
         </tbody>
       </table>
     </div>

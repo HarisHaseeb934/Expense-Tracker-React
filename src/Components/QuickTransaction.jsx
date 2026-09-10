@@ -72,11 +72,11 @@ const QuickTransaction = () => {
                 id="CATEGORY"
                 className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container  focus:bg-surface-container-highest"
               >
-                <option value="Food &amp; Dining">Food &amp; Dining</option>
-                <option value="Rent &amp; Housing">Rent &amp; Housing</option>
+                <option value="Food & Dining">Food & Dining</option>
+                <option value="Rent & Housing">Rent & Housing</option>
                 <option value="Entertainment">Entertainment</option>
-                <option value="Utilities &amp; Bills">
-                  Utilities &amp; Bills
+                <option value="Utilities & Bills">
+                  Utilities & Bills
                 </option>
                 <option value="Transportation">Transportation</option>
                 <option value="Healthcare">Healthcare</option>
@@ -125,11 +125,11 @@ const QuickTransaction = () => {
                 id="CATEGORY"
                 className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container  focus:bg-surface-container-highest"
               >
-                <option value="Salary &amp; Payroll">Salary &amp; Payroll</option>
-                <option value="Freelance &amp; Contract">Freelance &amp; Contract</option>
-                <option value="Investments &amp; Dividends">Investments &amp; Dividends</option>
-                <option value="Side Project &amp; Sales">
-                  Side Project &amp; Sales
+                <option value="Salary & Payroll">Salary & Payroll</option>
+                <option value="Freelance & Contract">Freelance & Contract</option>
+                <option value="Investments & Dividends">Investments & Dividends</option>
+                <option value="Side Project & Sales">
+                  Side Project & Sales
                 </option>
                 <option value="Other Income">Other Income</option>
               </select>
