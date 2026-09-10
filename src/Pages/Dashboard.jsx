@@ -33,7 +33,7 @@ const Dashboard = () => {
       >
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#26322c] text-[#2caa98] rounded-full px-2">
-            <MdArrowOutward /> <span> +$650.00 vs last month</span>
+            <MdArrowOutward /> <span className="font-bold"> +$650.00 vs last month</span>
           </p>
           <p className="text-on-surface-variant">92% of target</p>
         </div>
@@ -50,7 +50,7 @@ const Dashboard = () => {
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#37191b] text-[#cba3b7] rounded-full px-2">
             <IoIosCheckmarkCircleOutline />{" "}
-            <span> -12% under budget limit</span>
+            <span className="font-bold"> -12% under budget limit</span>
           </p>
           <p className="text-on-surface-variant">$250 left</p>
         </div>
