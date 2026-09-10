@@ -4,6 +4,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { MdArrowOutward } from "react-icons/md";
 import ExpenseBreakdown from "../Components/ExpenseBreakdown";
 import QuickTransaction from "../Components/QuickTransaction";
+import RecentTransaction from "../Components/RecentTransaction";
 
 const Dashboard = () => {
   return (
@@ -59,6 +60,10 @@ const Dashboard = () => {
 
       <ExpenseBreakdown/>
       <QuickTransaction/>
+
+      {/* Recent Transaction */}
+      <RecentTransaction/>
+      
     </section>
   );
 };
