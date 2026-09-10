@@ -51,7 +51,7 @@ const RecentTransaction = () => {
             title={"Haris"}
             category={"food"}
             type={"Debit"}
-            amount={10000}
+            amount={-10000}
           />
           <RecentTableRow
             date={"10/20/2024"}
