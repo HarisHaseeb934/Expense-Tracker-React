@@ -1,8 +1,36 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
+import { InitialContext } from "../Custom Hooks/InitialBalance";
 
 const QuickTransaction = () => {
+  const { balance, setBalance } = useContext(InitialContext);
   const [isExpense, setIsExpense] = useState(true);
+  const [quick, setQuick] = useState({
+    title: "",
+    date: "",
+    amount: "",
+    category: "",
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(quick)
+    setBalance((prev) => ({
+      ...prev,
+      transaction: [...prev.transaction, quick],
+    }));
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    if (isExpense && name === "amount") {
+      setQuick((prev) => ({ ...prev, [name]: -Math.abs(value) }));
+    }else{
+      setQuick((prev) => ({ ...prev, [name]: value}));
+    }
+
+  }
+
   return (
     <div className="col-span-1 md:col-span-2 lg:col-span-1 bg-surface-container-low p-5 rounded-md flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -30,7 +58,7 @@ const QuickTransaction = () => {
           +Income
         </button>
       </div>
-      <form className="flex flex-col gap-3">
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
         {isExpense ? (
           <>
             <div className="flex flex-col">
@@ -43,6 +71,9 @@ const QuickTransaction = () => {
               <input
                 type="text"
                 id="TITLE"
+                name="title"
+                value={quick.title}
+                onChange={handleChange}
                 placeholder="e.g. Whole Foods Market"
                 className="outline-none text-body-sm rounded-sm text-white p-2 bg-surface-container  focus:bg-surface-container-highest"
               />
@@ -56,7 +87,10 @@ const QuickTransaction = () => {
               </label>
               <input
                 type="number"
-                id="TITLE"
+                id="AMOUNT"
+                name="amount"
+                value={quick.amount}
+                onChange={handleChange}
                 placeholder="$ 0.00"
                 className="outline-none text-body-sm rounded-sm text-white p-2 font-mono-numeric bg-surface-container  focus:bg-surface-container-highest"
               />
@@ -70,14 +104,15 @@ const QuickTransaction = () => {
               </label>
               <select
                 id="CATEGORY"
+                name="category"
+                value={quick.category}
+                onChange={handleChange}
                 className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container  focus:bg-surface-container-highest"
               >
                 <option value="Food & Dining">Food & Dining</option>
                 <option value="Rent & Housing">Rent & Housing</option>
                 <option value="Entertainment">Entertainment</option>
-                <option value="Utilities & Bills">
-                  Utilities & Bills
-                </option>
+                <option value="Utilities & Bills">Utilities & Bills</option>
                 <option value="Transportation">Transportation</option>
                 <option value="Healthcare">Healthcare</option>
                 <option value="Other Expense">Other Expense</option>
@@ -96,6 +131,9 @@ const QuickTransaction = () => {
               <input
                 type="text"
                 id="TITLE"
+                value={quick.title}
+                onChange={handleChange}
+                name="title"
                 placeholder="e.g. Client Wire, Employer Payroll, Dividend"
                 className="outline-none text-body-sm rounded-sm text-white p-2 bg-surface-container  focus:bg-surface-container-highest"
               />
@@ -109,7 +147,10 @@ const QuickTransaction = () => {
               </label>
               <input
                 type="number"
-                id="TITLE"
+                id="AMOUNT"
+                name="amount"
+                value={quick.amount}
+                onChange={handleChange}
                 placeholder="$ 0.00"
                 className="outline-none text-body-sm rounded-sm text-white p-2 font-mono-numeric bg-surface-container  focus:bg-surface-container-highest"
               />
@@ -123,11 +164,18 @@ const QuickTransaction = () => {
               </label>
               <select
                 id="CATEGORY"
+                name="category"
+                value={quick.category}
+                onChange={handleChange}
                 className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container  focus:bg-surface-container-highest"
               >
                 <option value="Salary & Payroll">Salary & Payroll</option>
-                <option value="Freelance & Contract">Freelance & Contract</option>
-                <option value="Investments & Dividends">Investments & Dividends</option>
+                <option value="Freelance & Contract">
+                  Freelance & Contract
+                </option>
+                <option value="Investments & Dividends">
+                  Investments & Dividends
+                </option>
                 <option value="Side Project & Sales">
                   Side Project & Sales
                 </option>
@@ -144,11 +192,14 @@ const QuickTransaction = () => {
             type="date"
             name="date"
             id="date"
+            value={quick.date}
+            onChange={handleChange}
             className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container  focus:bg-surface-container-highest"
           />
         </div>
         <button
           className={`text-black ${isExpense ? "bg-[#ff8493]" : "bg-[#2caa98]"} block w-full text-sm font-semibold py-2 mt-3`}
+          type="submit"
         >
           Record {isExpense ? "Expense" : "Income"}
         </button>

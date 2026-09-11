@@ -1,11 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
+import { InitialContext } from "../Custom Hooks/InitialBalance";
 
 
 
 const Header = () => {
+  const {balance, setBalance} = useContext(InitialContext);
+  console.log(useContext(InitialContext));
   
   const [isNavHide, setIsNavHide] = useState(true);
   const [isModal, setModal] = useState(false);
@@ -18,9 +21,21 @@ const Header = () => {
     setModal(true)
   }
 
+  function handleChange(event) {
+    let {name, value} = event.target;
+    setBalance(prev => ({...prev, [name]: value}))
+  }
+
+  function handleSubmit(e){
+    e.preventDefault();
+    setModal(false)
+  }
+
   useEffect(() => {
     function handleModal(event){
-      if(!modal.current.contains(event.target)){
+      // console.log(modal.current);
+      
+      if(modal.current && !modal.current.contains(event.target)){
         setModal(false)
       }
     }
@@ -29,7 +44,7 @@ const Header = () => {
     return () => {
       document.removeEventListener("mousedown", handleModal)
     }
-  },[])
+  },[modal])
 
   return (
     <div>
@@ -96,31 +111,37 @@ const Header = () => {
               Record an expense, income, or transfer
             </p>
           </div>
-          <form className="flex flex-col gap-5 mt-4">
+          <form className="flex flex-col gap-5 mt-4" onSubmit={handleSubmit}>
             <div>
               <label
-                htmlFor="amount"
+                htmlFor="totalBalanceLimit"
                 className="text-on-surface-variant text-xs"
               >
                 TOTAL BALANCE
               </label>
               <input
                 type="number"
-                id="amount"
+                id="totalBalanceLimit"
+                name="totalBalanceLimit"
+                value={balance.totalBalance}
+                onChange={handleChange}
                 className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                 placeholder="$0.00"
               />
             </div>
             <div>
               <label
-                htmlFor="amount"
+                htmlFor="targetIncomeLimit"
                 className="text-on-surface-variant text-xs"
               >
                 INCOME TARGET
               </label>
               <input
                 type="number"
-                id="INCOME TARGET"
+                id="targetIncomeLimit"
+                name="targetIncomeLimit"
+                value={balance.targetIncome}
+                onChange={handleChange}
                 className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                 placeholder="$0.00"
               />
@@ -128,62 +149,74 @@ const Header = () => {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label
-                  htmlFor="Utilities & Bill"
+                  htmlFor="utilitiesBillLimit"
                   className="text-on-surface-variant text-xs"
                 >
                   Utilities & Bill
                 </label>
                 <input
                   type="number"
-                  id="Utilities & Bill"
+                  id="utilitiesBillLimit"
+                  name="utilitiesBillLimit"
+                  value={balance.utilitiesBill}
+                  onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="Transportation"
+                  htmlFor="transportationLimit"
                   className="text-on-surface-variant text-xs"
                 >
                   Transportation
                 </label>
                 <input
                   type="number"
-                  id="Transportation"
+                  id="transportationLimit"
+                  name="transportationLimit"
+                  value={balance.transportation}
+                  onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="Food & Dining"
+                  htmlFor="foodDiningLimit"
                   className="text-on-surface-variant text-xs"
                 >
                   Food & Dining
                 </label>
                 <input
                   type="number"
-                  id="Food & Dining"
+                  id="foodDiningLimit"
+                  name="foodDiningLimit"
+                  value={balance.foodDining}
+                  onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="Other Expense"
+                  htmlFor="otherExpenseLimit"
                   className="text-on-surface-variant text-xs"
                 >
                   Other Expense
                 </label>
                 <input
                   type="number"
-                  id="Other Expense"
+                  id="otherExpenseLimit"
+                  name="otherExpenseLimit"
+                  value={balance.otherExpense}
+                  onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
             </div>
-            <button className="bg-[#4edea3] w-fullfont-bold rounded-sm py-2 mb-5">ADD</button>
+            <button className="bg-[#4edea3] w-fullfont-bold rounded-sm py-2 mb-5" type="submit">ADD</button>
           </form>
         </div>
       </div>}

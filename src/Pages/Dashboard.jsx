@@ -5,9 +5,39 @@ import { MdArrowOutward } from "react-icons/md";
 import ExpenseBreakdown from "../Components/ExpenseBreakdown";
 import QuickTransaction from "../Components/QuickTransaction";
 import RecentTransaction from "../Components/RecentTransaction";
+import { useContext } from "react";
+import { InitialContext } from "../Custom Hooks/InitialBalance";
 
 const Dashboard = () => {
-  
+  const { balance, setBalance } = useContext(InitialContext);
+  const {
+    totalBalance,
+    targetIncome,
+    income,
+    expenses,
+    utilitiesBillLimit,
+    transportationLimit,
+    foodDiningLimit,
+    otherExpenseLimit,
+    transaction
+  } = balance;
+
+  function getMonth(){
+    const date = new Date();
+    if(date.getDate() === 1){
+      setBalance(prev => ({...prev, income: 0}))
+    }
+    return date.toDateString().split(" ").at(1) + " " + date.toDateString().split(" ").at(3)
+  }
+
+  // function getMonth(){
+  //   const date = new Date();
+  //   if(date.getDate() === 1){
+  //     setBalance(prev => ({...prev, income: 0}))
+  //   }
+  //   return date.toDateString().split(" ").at(1) + " " + date.toDateString().split(" ").at(3)
+  // }
+
   return (
     <section className="w-full p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <DashboardTotalCard
@@ -15,7 +45,7 @@ const Dashboard = () => {
         icon="AiOutlineRise"
         gap="gap-5 md:col-span-2 lg:col-span-1"
         iconClass="bg-[#26322c] text-[#2caa98] p-1 rounded-sm flex items-center"
-        money={12450.0}
+        money={totalBalance ? totalBalance : 0}
         h1class="text-white"
         para="Avaliable across 3 connected accounts"
       >
@@ -28,16 +58,16 @@ const Dashboard = () => {
         icon="FaArrowUp"
         gap="gap-7 col-span-1"
         iconClass="bg-[#26322c] text-[#2caa98] p-2 rounded-sm flex items-center"
-        money={12450.0}
+        money={income ? income : 0}
         h1class="text-[#4edea3]"
-        para="October 2024 payroll & contract"
+        para={`${getMonth()} payroll & contract`}
       >
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#26322c] text-[#2caa98] rounded-full px-2">
             <MdArrowOutward />{" "}
             <span className="font-bold"> +$650.00 vs last month</span>
           </p>
-          <p className="text-on-surface-variant">92% of target</p>
+          <p className="text-on-surface-variant">{(income / targetIncome) * 100 || 0}% of target</p>
         </div>
       </DashboardTotalCard>
       <DashboardTotalCard
@@ -45,9 +75,9 @@ const Dashboard = () => {
         icon="FaArrowDown"
         gap="gap-7 col-span-1"
         iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
-        money={12450.0}
+        money={expenses ? expenses : 0}
         h1class="text-[#ffb2b7]"
-        para="Monthly cap: $2,100.00"
+        para={`Monthly cap: ${utilitiesBillLimit + transportationLimit + foodDiningLimit + otherExpenseLimit || 0}`}
       >
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#37191b] text-[#cba3b7] rounded-full px-2">
@@ -64,7 +94,7 @@ const Dashboard = () => {
       <QuickTransaction />
 
       {/* Recent Transaction */}
-      <RecentTransaction />
+      <RecentTransaction transaction = {transaction}/>
     </section>
   );
 };
