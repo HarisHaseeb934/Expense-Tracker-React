@@ -1,9 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
 
+
+
 const Header = () => {
+  
   const [isNavHide, setIsNavHide] = useState(true);
   const [isModal, setModal] = useState(false);
   const modal = useRef(null);
@@ -104,6 +107,20 @@ const Header = () => {
               <input
                 type="number"
                 id="amount"
+                className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                placeholder="$0.00"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="amount"
+                className="text-on-surface-variant text-xs"
+              >
+                INCOME TARGET
+              </label>
+              <input
+                type="number"
+                id="INCOME TARGET"
                 className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                 placeholder="$0.00"
               />

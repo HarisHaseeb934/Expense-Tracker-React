@@ -7,6 +7,7 @@ import QuickTransaction from "../Components/QuickTransaction";
 import RecentTransaction from "../Components/RecentTransaction";
 
 const Dashboard = () => {
+  
   return (
     <section className="w-full p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <DashboardTotalCard
@@ -33,7 +34,8 @@ const Dashboard = () => {
       >
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#26322c] text-[#2caa98] rounded-full px-2">
-            <MdArrowOutward /> <span className="font-bold"> +$650.00 vs last month</span>
+            <MdArrowOutward />{" "}
+            <span className="font-bold"> +$650.00 vs last month</span>
           </p>
           <p className="text-on-surface-variant">92% of target</p>
         </div>
@@ -58,12 +60,11 @@ const Dashboard = () => {
 
       {/* Chart and Form */}
 
-      <ExpenseBreakdown/>
-      <QuickTransaction/>
+      <ExpenseBreakdown />
+      <QuickTransaction />
 
       {/* Recent Transaction */}
-      <RecentTransaction/>
-      
+      <RecentTransaction />
     </section>
   );
 };
