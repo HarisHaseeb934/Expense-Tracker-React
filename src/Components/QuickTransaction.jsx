@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
 
-const DEFAULT_EXPENSE = {
+const expense = {
   title: "",
   date: "",
   amount: "",
@@ -11,7 +11,7 @@ const DEFAULT_EXPENSE = {
   type: "expense",
 };
 
-const DEFAULT_INCOME = {
+const income = {
   title: "",
   date: "",
   amount: "",
@@ -23,11 +23,11 @@ const DEFAULT_INCOME = {
 const QuickTransaction = () => {
   const { setBalance } = useContext(InitialContext);
   const [isExpense, setIsExpense] = useState(true);
-  const [quick, setQuick] = useState(DEFAULT_EXPENSE);
+  const [quick, setQuick] = useState(expense);
 
   const handleTypeToggle = (shouldBeExpense) => {
     setIsExpense(shouldBeExpense);
-    setQuick(shouldBeExpense ? DEFAULT_EXPENSE : DEFAULT_INCOME);
+    setQuick(shouldBeExpense ? expense : income);
   };
 
   const handleChange = (e) => {
@@ -45,7 +45,7 @@ const QuickTransaction = () => {
       ...prev,
       transaction: [...prev.transaction, quick],
     }));
-    setQuick(isExpense ? DEFAULT_EXPENSE : DEFAULT_INCOME);
+    setQuick(isExpense ? expense : income);
   };
 
   return (
