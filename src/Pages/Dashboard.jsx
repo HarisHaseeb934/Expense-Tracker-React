@@ -13,13 +13,12 @@ const Dashboard = () => {
   const {
     totalBalance,
     targetIncome,
-    income,
-    expenses,
     utilitiesBillLimit,
     transportationLimit,
     foodDiningLimit,
     otherExpenseLimit,
-    transaction
+    entertainment,
+    transaction,
   } = balance;
 
   function getMonth(){
@@ -28,6 +27,22 @@ const Dashboard = () => {
       setBalance(prev => ({...prev, income: 0}))
     }
     return date.toDateString().split(" ").at(1) + " " + date.toDateString().split(" ").at(3)
+  }
+
+  function calcIncome(){
+    if(transaction.length > 0){
+      return transaction.filter(trans => trans.type === "income").reduce((acc, trans) => acc += Number(trans.amount),0)
+    }else{
+      return 0;
+    }
+  }
+
+  function calcExpense(){
+    if(transaction.length > 0){
+      return transaction.filter(trans => trans.type === "expense").reduce((acc, trans) => acc += Number(trans.amount),0)
+    }else{
+      return 0;
+    }
   }
 
   // function getMonth(){
@@ -47,7 +62,7 @@ const Dashboard = () => {
         iconClass="bg-[#26322c] text-[#2caa98] p-1 rounded-sm flex items-center"
         money={totalBalance ? totalBalance : 0}
         h1class="text-white"
-        para="Avaliable across 3 connected accounts"
+        para="Avaliable across 1 connected accounts"
       >
         <div className="mt-auto">
           <DashboardSvg />
@@ -58,7 +73,7 @@ const Dashboard = () => {
         icon="FaArrowUp"
         gap="gap-7 col-span-1"
         iconClass="bg-[#26322c] text-[#2caa98] p-2 rounded-sm flex items-center"
-        money={income ? income : 0}
+        money={calcIncome()}
         h1class="text-[#4edea3]"
         para={`${getMonth()} payroll & contract`}
       >
@@ -67,7 +82,7 @@ const Dashboard = () => {
             <MdArrowOutward />{" "}
             <span className="font-bold"> +$650.00 vs last month</span>
           </p>
-          <p className="text-on-surface-variant">{(income / targetIncome) * 100 || 0}% of target</p>
+          <p className="text-on-surface-variant">{(calcIncome() / targetIncome) * 100 || 0}% of target</p>
         </div>
       </DashboardTotalCard>
       <DashboardTotalCard
@@ -75,7 +90,7 @@ const Dashboard = () => {
         icon="FaArrowDown"
         gap="gap-7 col-span-1"
         iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
-        money={expenses ? expenses : 0}
+        money={calcExpense()}
         h1class="text-[#ffb2b7]"
         para={`Monthly cap: ${utilitiesBillLimit + transportationLimit + foodDiningLimit + otherExpenseLimit || 0}`}
       >

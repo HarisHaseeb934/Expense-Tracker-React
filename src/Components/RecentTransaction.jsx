@@ -56,6 +56,8 @@ const RecentTransaction = ({ transaction }) => {
                 <RecentTableRow
                 key={index}
                   {...trans}
+                  bg = {categories[trans.category].bgColor}
+                  text = {categories[trans.category].color}
                 />
               );
             })}

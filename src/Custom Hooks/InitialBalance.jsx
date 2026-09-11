@@ -6,16 +6,12 @@ const InitialBalance = ({ children }) => {
   const [balance, setBalance] = useState({
     totalBalance: "",
     targetIncome: "",
-    income: "",
-    expenses: "",
     utilitiesBillLimit: "",
     transportationLimit: "",
     foodDiningLimit: "",
     otherExpenseLimit: "",
-    rentHousing: "",
-    transaction: [
-
-    ]
+    entertainment: "",
+    transaction: [],
   });
   return (
     <InitialContext value={{ balance, setBalance }}>{children}</InitialContext>
