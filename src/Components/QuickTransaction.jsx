@@ -5,7 +5,7 @@ import { InitialContext } from "../Custom Hooks/InitialBalance";
 const expense = {
   title: "",
   date: "",
-  amount: "",
+  amount: 0,
   category: "Food & Dining",
   transactionType: "Credit",
   type: "expense",
@@ -20,7 +20,6 @@ const income = {
   category: "Salary & Payroll",
   transactionType: "Credit",
   type: "income",
-  
   text: "[#44c08c]",
   bg: "bg-[#23372e]"
 };
@@ -37,10 +36,9 @@ const QuickTransaction = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     let text = "";
     let bg = "";
-    console.log(e.target.selectedOption)
+    console.log(e)
     if (name === "category") {
       const selectedOption = e.target.selectedOptions[0];
       if (selectedOption) {
