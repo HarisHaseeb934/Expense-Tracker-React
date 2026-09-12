@@ -23,7 +23,7 @@ const Header = () => {
 
   function handleChange(event) {
     let {name, value} = event.target;
-    setBalance(prev => ({...prev, [name]: value}))
+    setBalance(prev => ({...prev, [name]: +value}))
   }
 
   function handleSubmit(e){
@@ -33,7 +33,6 @@ const Header = () => {
 
   useEffect(() => {
     function handleModal(event){
-      // console.log(modal.current);
       
       if(modal.current && !modal.current.contains(event.target)){
         setModal(false)
@@ -121,8 +120,8 @@ const Header = () => {
               </label>
               <input
                 type="number"
-                id="totalBalanceLimit"
-                name="totalBalanceLimit"
+                id="totalBalance"
+                name="totalBalance"
                 value={balance.totalBalance}
                 onChange={handleChange}
                 className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
@@ -131,15 +130,15 @@ const Header = () => {
             </div>
             <div>
               <label
-                htmlFor="targetIncomeLimit"
+                htmlFor="targetIncome"
                 className="text-on-surface-variant text-xs"
               >
                 INCOME TARGET
               </label>
               <input
                 type="number"
-                id="targetIncomeLimit"
-                name="targetIncomeLimit"
+                id="targetIncome"
+                name="targetIncome"
                 value={balance.targetIncome}
                 onChange={handleChange}
                 className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
@@ -158,7 +157,7 @@ const Header = () => {
                   type="number"
                   id="utilitiesBillLimit"
                   name="utilitiesBillLimit"
-                  value={balance.utilitiesBill}
+                  value={balance.utilitiesBillLimit}
                   onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
@@ -175,7 +174,7 @@ const Header = () => {
                   type="number"
                   id="transportationLimit"
                   name="transportationLimit"
-                  value={balance.transportation}
+                  value={balance.transportationLimit}
                   onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
@@ -192,7 +191,7 @@ const Header = () => {
                   type="number"
                   id="foodDiningLimit"
                   name="foodDiningLimit"
-                  value={balance.foodDining}
+                  value={balance.foodDiningLimit}
                   onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
@@ -209,7 +208,7 @@ const Header = () => {
                   type="number"
                   id="otherExpenseLimit"
                   name="otherExpenseLimit"
-                  value={balance.otherExpense}
+                  value={balance.otherExpenseLimit}
                   onChange={handleChange}
                   className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"

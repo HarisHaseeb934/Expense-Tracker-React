@@ -1,6 +1,7 @@
-import { useState } from "react"
-import DonutExpenseCard from "./DonutExpenseCard"
-import ExpenseBreakdownCard from "./ExpenseBreakdownCard"
+import { useContext, useState } from "react";
+import DonutExpenseCard from "./DonutExpenseCard";
+import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
+import { InitialContext } from "../Custom Hooks/InitialBalance";
 
 const categories = {
   "Salary & Payroll": { color: "#44c08c", bgColor: "#23372e" },
@@ -17,28 +18,49 @@ const categories = {
 };
 
 const ExpenseBreakdown = () => {
-    const [select, setSelect] = useState("month")
+  const { balance, setBalance } = useContext(InitialContext);
+
+  const {
+    totalBalance,
+    targetIncome,
+    utilitiesBillLimit,
+    transportationLimit,
+    foodDiningLimit,
+    otherExpenseLimit,
+    entertainment,
+    transaction,
+  } = balance;
+
+  const [select, setSelect] = useState("month");
   return (
     <div className="col-span-1 md:col-span-2 bg-surface-container-low p-5 rounded-md">
-        <div className="flex justify-between">
-            <div className="">
-                <h1 className="text-white font-bold text-sm md:text-base">Expense Breakdown</h1>
-                <p className="text-on-surface-variant text-xs">Categorical distribution for active cycle</p>
-            </div>
-            <select value={select} onChange={(e) => setSelect(e.target.value)} className="text-white outline-none bg-[#201f1f] p-1 md:p-2 rounded-md text-xs md:text-base">
-                <option value="month">This Month</option>
-                <option value="30">30 Days</option>
-                <option value="quaterly">Quaterly</option>
-            </select>
+      <div className="flex justify-between">
+        <div className="">
+          <h1 className="text-white font-bold text-sm md:text-base">
+            Expense Breakdown
+          </h1>
+          <p className="text-on-surface-variant text-xs">
+            Categorical distribution for active cycle
+          </p>
         </div>
-        <DonutExpenseCard/>
-        <div className="flex justify-center sm:justify-evenly flex-col sm:flex-row  gap-5">
-            <ExpenseBreakdownCard/>
-            <ExpenseBreakdownCard/>
-            <ExpenseBreakdownCard/>
-        </div>
+        <select
+          value={select}
+          onChange={(e) => setSelect(e.target.value)}
+          className="text-white outline-none bg-[#201f1f] p-1 md:p-2 rounded-md text-xs md:text-base"
+        >
+          <option value="month">This Month</option>
+          <option value="30">30 Days</option>
+          <option value="quaterly">Quaterly</option>
+        </select>
+      </div>
+      <DonutExpenseCard {...balance}/>
+      <div className="flex justify-center sm:justify-evenly flex-col sm:flex-row  gap-5">
+        <ExpenseBreakdownCard />
+        <ExpenseBreakdownCard />
+        <ExpenseBreakdownCard />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ExpenseBreakdown
+export default ExpenseBreakdown;

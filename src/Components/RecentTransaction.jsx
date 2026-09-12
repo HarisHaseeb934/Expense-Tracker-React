@@ -1,24 +1,9 @@
 import { IoSearchOutline } from "react-icons/io5";
 import RecentTableRow from "./RecentTableRow";
 
-const categories = {
-  "Salary & Payroll": { color: "text-[#44c08c]", bgColor: "bg-[#23372e]" },
-  "Freelance & Contract": { color: "text-[#44c08c]", bgColor: "bg-[#23372e]" },
-  "Investments & Dividends": {
-    color: "text-[#44c08c]",
-    bgColor: "bg-[#23372e]",
-  },
-  "Side Project & Sales": { color: "text-[#44c08c]", bgColor: "bg-[#23372e]" },
-  Income: { color: "text-[#44c08c]", bgColor: "bg-[#23372e]" },
-  "Food & Dining": { color: "text-[#ac787c]", bgColor: "bg-[#3d282a]" },
-  Entertainment: { color: "text-[#44c08c]", bgColor: "bg-[#23372e]" },
-  "Utilities & Bill": { color: "text-[#abace4]", bgColor: "bg-[#34333c]" },
-  Transportation: { color: "text-[#abace4]", bgColor: "bg-[#34333c]" },
-  Healthcare: { color: "text-[#abace4]", bgColor: "bg-[#34333c]" },
-  "Other Expense": { color: "text-[#ac787c]", bgColor: "bg-[#3d282a]" },
-};
-
 const RecentTransaction = ({ transaction }) => {
+
+  console.log(transaction)
   return (
     <div className="bg-surface-container-low p-5 rounded-md flex flex-col gap-4 col-span-full">
       <div className="flex md:justify-between md:items-center flex-col md:flex-row gap-4">
@@ -56,8 +41,6 @@ const RecentTransaction = ({ transaction }) => {
                 <RecentTableRow
                 key={index}
                   {...trans}
-                  bg = {categories[trans.category].bgColor}
-                  text = {categories[trans.category].color}
                 />
               );
             })}

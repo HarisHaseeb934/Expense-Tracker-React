@@ -21,6 +21,8 @@ const Dashboard = () => {
     transaction,
   } = balance;
 
+ let totalExpenseLimit = utilitiesBillLimit + transportationLimit + foodDiningLimit + otherExpenseLimit
+
   function getMonth(){
     const date = new Date();
     if(date.getDate() === 1){
@@ -44,6 +46,9 @@ const Dashboard = () => {
       return 0;
     }
   }
+
+  // console.log(targetIncome)
+  // console.log(totalExpenseLimit)
 
   // function getMonth(){
   //   const date = new Date();
@@ -82,7 +87,7 @@ const Dashboard = () => {
             <MdArrowOutward />{" "}
             <span className="font-bold"> +$650.00 vs last month</span>
           </p>
-          <p className="text-on-surface-variant">{(calcIncome() / targetIncome) * 100 || 0}% of target</p>
+          <p className="text-on-surface-variant">{targetIncome !== "" ? ((calcIncome() / targetIncome) * 100).toFixed() : 0}% of target</p>
         </div>
       </DashboardTotalCard>
       <DashboardTotalCard
@@ -92,14 +97,14 @@ const Dashboard = () => {
         iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
         money={calcExpense()}
         h1class="text-[#ffb2b7]"
-        para={`Monthly cap: ${utilitiesBillLimit + transportationLimit + foodDiningLimit + otherExpenseLimit || 0}`}
+        para={`Monthly cap: ${totalExpenseLimit || 0}`}
       >
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#37191b] text-[#cba3b7] rounded-full px-2">
             <IoIosCheckmarkCircleOutline />{" "}
-            <span className="font-bold"> -12% under budget limit</span>
+            <span className="font-bold"> { totalExpenseLimit !== "" ? ((calcExpense() / totalExpenseLimit) * 100).toFixed() : 0}% under budget limit</span>
           </p>
-          <p className="text-on-surface-variant">$250 left</p>
+          <p className="text-on-surface-variant">${totalExpenseLimit - calcExpense()} left</p>
         </div>
       </DashboardTotalCard>
 

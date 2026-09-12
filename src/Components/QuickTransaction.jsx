@@ -9,6 +9,8 @@ const expense = {
   category: "Food & Dining",
   transactionType: "Credit",
   type: "expense",
+  text: "text-[#ac787c]",
+  bg: "bg-[#3d282a]"
 };
 
 const income = {
@@ -18,6 +20,9 @@ const income = {
   category: "Salary & Payroll",
   transactionType: "Credit",
   type: "income",
+  
+  text: "[#44c08c]",
+  bg: "bg-[#23372e]"
 };
 
 const QuickTransaction = () => {
@@ -32,15 +37,28 @@ const QuickTransaction = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    let text = "";
+    let bg = "";
+    console.log(e.target.selectedOption)
+    if (name === "category") {
+      const selectedOption = e.target.selectedOptions[0];
+      if (selectedOption) {
+        text = selectedOption.dataset.text || "";
+        bg = selectedOption.dataset.bg || "";
+      }
+    }
+
     setQuick((prev) => ({
       ...prev,
       [name]: value,
+      ...(name === "category" && { text, bg }),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(quick)
+    // console.log(quick)
     setBalance((prev) => ({
       ...prev,
       transaction: [...prev.transaction, quick],
@@ -142,27 +160,93 @@ const QuickTransaction = () => {
           >
             {isExpense ? (
               <>
-                <option value="Food & Dining">Food & Dining</option>
-                <option value="Rent & Housing">Rent & Housing</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Utilities & Bills">Utilities & Bills</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Other Expense">Other Expense</option>
+                <option
+                  value="Food & Dining"
+                  data-text="text-[#ac787c]"
+                  data-bg={"bg-[#3d282a]"}
+                >
+                  Food & Dining
+                </option>
+                <option
+                  value="Rent & Housing"
+                  data-text="text-[#abace4]"
+                  data-bg={"bg-[#34333c]"}
+                >
+                  Rent & Housing
+                </option>
+                <option
+                  value="Entertainment"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
+                  Entertainment
+                </option>
+                <option
+                  value="Utilities & Bills"
+                  data-text="text-[#abace4]"
+                  data-bg={"bg-[#34333c]"}
+                >
+                  Utilities & Bills
+                </option>
+                <option
+                  value="Transportation"
+                  data-text="text-[#abace4]"
+                  data-bg={"bg-[#34333c]"}
+                >
+                  Transportation
+                </option>
+                <option
+                  value="Healthcare"
+                  data-text="text-[#ac787c]"
+                  data-bg={"bg-[#3d282a]"}
+                >
+                  Healthcare
+                </option>
+                <option
+                  value="Other Expense"
+                  data-text="text-[#ac787c]"
+                  data-bg={"bg-[#3d282a]"}
+                >
+                  Other Expense
+                </option>
               </>
             ) : (
               <>
-                <option value="Salary & Payroll">Salary & Payroll</option>
-                <option value="Freelance & Contract">
+                <option
+                  value="Salary & Payroll"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
+                  Salary & Payroll
+                </option>
+                <option
+                  value="Freelance & Contract"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
                   Freelance & Contract
                 </option>
-                <option value="Investments & Dividends">
+                <option
+                  value="Investments & Dividends"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
                   Investments & Dividends
                 </option>
-                <option value="Side Project & Sales">
+                <option
+                  value="Side Project & Sales"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
                   Side Project & Sales
                 </option>
-                <option value="Other Income">Other Income</option>
+                <option
+                  value="Other Income"
+                  data-text={"[#44c08c]"}
+                  data-bg={"bg-[#23372e]"}
+                >
+                  Other Income
+                </option>
               </>
             )}
           </select>
