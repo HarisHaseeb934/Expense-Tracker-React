@@ -1,34 +1,12 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-// const category_map = {
-//   "bg-[#3d282a]": { name: "Food", fill: "#ff8493" , bg: "bg-[#ff8493]", text: "text-[#ff8493]"},
-//   "bg-[#34333c]": { name: "Rent", fill: "#abace4" , bg: "bg-[#abace4]", text: "text-[#abace4]"},
-//   "bg-[#23372e]": { name: "Entertainment", fill: "#4edea3" , bg: "bg-[#4edea3]", text: "text-[#4edea3]"},
-// };
-
-// const labels = ["Largest Expense", "Discretionary", "Under Target"];
-
-export default function DonutExpenseCard({ dynamicData, sortedColors, category_map, labels, totalExpense}) {
-  // const expenses = transaction.filter((trans) => trans.type === "expense");
-  // const totalExpense = expenses.reduce((acc, trans) => acc + Number(trans.amount), 0);
-
-  // const colors = expenses.reduce((acc, trans) => {
-  //   acc[trans.bg] = (acc[trans.bg] || 0) + Number(trans.amount);
-  //   return acc;
-  // }, {});
-
-  // const sortedColors = Object.entries(colors).sort((a, b) => b[1] - a[1]);
-  // console.log("sortedColors", sortedColors)
-  
-  // const dynamicData = sortedColors.map(([bgClass, amount]) => {
-  //   console.log("category_map[bgClass]", category_map[bgClass])
-
-  //   const data = category_map[bgClass];
-  //   return {
-  //     ...data,amount
-  //   };
-  // });
-  // console.log("Dynamic Data", dynamicData)
+export default function DonutExpenseCard({
+  dynamicData,
+  sortedColors,
+  category_map,
+  labels,
+  totalExpense,
+}) {
   return (
     <div className="flex items-center justify-between flex-col md:flex-row p-6 md:p-8 rounded-2xl text-white font-sans w-full">
       <div className="relative w-[200px] h-[200px]">
@@ -54,7 +32,9 @@ export default function DonutExpenseCard({ dynamicData, sortedColors, category_m
           <div className="text-[11px] tracking-widest text-[#a0a0a0] uppercase font-semibold">
             Spent
           </div>
-          <div className="text-2xl font-bold my-0.5">${totalExpense.toLocaleString()}</div>
+          <div className="text-2xl font-bold my-0.5">
+            ${totalExpense.toLocaleString()}
+          </div>
           <div className="text-xs text-[#a0a0a0]">Total</div>
         </div>
       </div>
@@ -69,7 +49,9 @@ export default function DonutExpenseCard({ dynamicData, sortedColors, category_m
               className="flex justify-between items-center bg-[#202020] px-4 py-2.5 rounded-lg"
             >
               <div className="flex items-center gap-2.5">
-                <span className={`w-2 h-2 rounded-full ${category_map[bgClass].bg}`} />
+                <span
+                  className={`w-2 h-2 rounded-full ${category_map[bgClass].bg}`}
+                />
                 <span className="text-xs text-[#e0e0e0] font-medium">
                   {labels[idx]}
                 </span>

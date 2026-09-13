@@ -3,20 +3,6 @@ import DonutExpenseCard from "./DonutExpenseCard";
 import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
 
-// const categories = {
-//   "Salary & Payroll": { color: "#44c08c", bgColor: "#23372e" },
-//   "Freelance & Contract": { color: "#44c08c", bgColor: "#23372e" },
-//   "Investments & Dividends": { color: "#44c08c", bgColor: "#23372e" },
-//   "Side Project & Sales": { color: "#44c08c", bgColor: "#23372e" },
-//   Income: { color: "#44c08c", bgColor: "#23372e" },
-//   "Food & Dining": { color: "#ac787c", bgColor: "#3d282a" },
-//   Entertainment: { color: "#44c08c", bgColor: "#23372e" },
-//   "Utilities & Bill": { color: "#abace4", bgColor: "#34333c" },
-//   Transportation: { color: "#abace4", bgColor: "#34333c" },
-//   Healthcare: { color: "#abace4", bgColor: "#34333c" },
-//   "Other Expense": { color: "#ac787c", bgColor: "#3d282a" },
-// };
-
 const category_map = {
   "bg-[#3d282a]": {
     name: "Food",
@@ -59,16 +45,7 @@ const ExpenseBreakdown = () => {
       date,
     }));
   }
-  const {
-    // totalBalance,
-    // targetIncome,
-    // utilitiesBillLimit,
-    // transportationLimit,
-    // foodDiningLimit,
-    // otherExpenseLimit,
-    // entertainment,
-    transaction,
-  } = balance;
+  const { transaction } = balance;
 
   const expenses = transaction.filter((trans) => trans.type === "expense");
 
@@ -81,14 +58,10 @@ const ExpenseBreakdown = () => {
 
   const colors = selectedDate.reduce((acc, trans) => {
     acc[trans.bg] = (acc[trans.bg] || 0) + Number(trans.amount);
-    // acc[trans.bg] = (acc[trans.bg] || 0) + Number(trans.amount);
     return acc;
   }, {});
 
   const sortedColors = Object.entries(colors).sort((a, b) => b[1] - a[1]);
-  // console.log("sortedColors", sortedColors);
-
-  // console.log("sortedColors", sortedColors);
 
   const dynamicData = sortedColors.map(([bgClass, amount]) => {
     console.log("category_map[bgClass]", category_map[bgClass]);
