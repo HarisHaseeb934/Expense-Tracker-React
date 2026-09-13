@@ -1,34 +1,34 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-const category_map = {
-  "text-[#ac787c]": { name: "Food", hex: "#ac787c" },
-  "text-[#abace4]": { name: "Rent", hex: "#abace4" },
-  "text-[#44c08c]": { name: "Entertainment", hex: "#44c08c" },
-};
+// const category_map = {
+//   "bg-[#3d282a]": { name: "Food", fill: "#ff8493" , bg: "bg-[#ff8493]", text: "text-[#ff8493]"},
+//   "bg-[#34333c]": { name: "Rent", fill: "#abace4" , bg: "bg-[#abace4]", text: "text-[#abace4]"},
+//   "bg-[#23372e]": { name: "Entertainment", fill: "#4edea3" , bg: "bg-[#4edea3]", text: "text-[#4edea3]"},
+// };
 
-const labels = ["Largest Expense", "Discretionary", "Under Target"];
+// const labels = ["Largest Expense", "Discretionary", "Under Target"];
 
-export default function DonutExpenseCard({ transaction = [] }) {
-  const expenses = transaction.filter((trans) => trans.type === "expense");
-  const totalExpense = expenses.reduce((acc, trans) => acc + Number(trans.amount), 0);
+export default function DonutExpenseCard({ dynamicData, sortedColors, category_map, labels, totalExpense}) {
+  // const expenses = transaction.filter((trans) => trans.type === "expense");
+  // const totalExpense = expenses.reduce((acc, trans) => acc + Number(trans.amount), 0);
 
-  const colors = expenses.reduce((acc, trans) => {
-    acc[trans.text] = (acc[trans.text] || 0) + Number(trans.amount);
-    return acc;
-  }, {});
+  // const colors = expenses.reduce((acc, trans) => {
+  //   acc[trans.bg] = (acc[trans.bg] || 0) + Number(trans.amount);
+  //   return acc;
+  // }, {});
 
-  const sortedColors = Object.entries(colors).sort((a, b) => b[1] - a[1]);
-  console.log("sortedColors", sortedColors)
+  // const sortedColors = Object.entries(colors).sort((a, b) => b[1] - a[1]);
+  // console.log("sortedColors", sortedColors)
   
-  const dynamicData = sortedColors.map(([bgClass, amount]) => {
-    console.log("category_map[bgClass]", category_map[bgClass])
+  // const dynamicData = sortedColors.map(([bgClass, amount]) => {
+  //   console.log("category_map[bgClass]", category_map[bgClass])
 
-    const data = category_map[bgClass];
-    return {
-      ...data,amount
-    };
-  });
-  console.log("Dynamic Data", dynamicData)
+  //   const data = category_map[bgClass];
+  //   return {
+  //     ...data,amount
+  //   };
+  // });
+  // console.log("Dynamic Data", dynamicData)
   return (
     <div className="flex items-center justify-between flex-col md:flex-row p-6 md:p-8 rounded-2xl text-white font-sans w-full">
       <div className="relative w-[200px] h-[200px]">
@@ -44,7 +44,7 @@ export default function DonutExpenseCard({ transaction = [] }) {
               stroke="none"
             >
               {dynamicData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.hex} />
+                <Cell key={`cell-${index}`} fill={entry.fill} />
               ))}
             </Pie>
           </PieChart>
@@ -62,7 +62,6 @@ export default function DonutExpenseCard({ transaction = [] }) {
       <div className="flex flex-col gap-3 w-[280px]">
         {sortedColors.map(([bgClass, value], idx) => {
           const categoryName = category_map[bgClass].name;
-          const percentage = totalExpense > 0 ? ((value / totalExpense) * 100).toFixed(0) : 0;
 
           return (
             <div
@@ -70,13 +69,13 @@ export default function DonutExpenseCard({ transaction = [] }) {
               className="flex justify-between items-center bg-[#202020] px-4 py-2.5 rounded-lg"
             >
               <div className="flex items-center gap-2.5">
-                <span className={`w-2 h-2 rounded-full ${bgClass}`} />
+                <span className={`w-2 h-2 rounded-full ${category_map[bgClass].bg}`} />
                 <span className="text-xs text-[#e0e0e0] font-medium">
                   {labels[idx]}
                 </span>
               </div>
               <span className="text-xs font-semibold">
-                {categoryName} (${value.toLocaleString()}) • {percentage}%
+                {categoryName} (${value.toLocaleString()})
               </span>
             </div>
           );

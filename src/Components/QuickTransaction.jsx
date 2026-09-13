@@ -1,16 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
+import Alert from "./Alert";
 
 const expense = {
   title: "",
   date: "",
-  amount: 0,
+  amount: "",
   category: "Food & Dining",
   transactionType: "Credit",
   type: "expense",
   text: "text-[#ac787c]",
-  bg: "bg-[#3d282a]"
+  bg: "bg-[#3d282a]",
 };
 
 const income = {
@@ -20,14 +21,48 @@ const income = {
   category: "Salary & Payroll",
   transactionType: "Credit",
   type: "income",
-  text: "[#44c08c]",
-  bg: "bg-[#23372e]"
+  text: "text-[#44c08c]",
+  bg: "bg-[#23372e]",
 };
 
 const QuickTransaction = () => {
-  const { setBalance } = useContext(InitialContext);
+  const { balance, setBalance } = useContext(InitialContext);
   const [isExpense, setIsExpense] = useState(true);
   const [quick, setQuick] = useState(expense);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    if (!showAlert) return;
+
+    let timer = setTimeout(() => {
+      setShowAlert(false);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showAlert]);
+
+  const {
+    totalBalance,
+    targetIncome,
+    utilitiesBillLimit,
+    transportationLimit,
+    foodDiningLimit,
+    otherExpenseLimit,
+    entertainment,
+    transaction,
+  } = balance;
+
+  const details =
+    totalBalance !== "" &&
+    targetIncome !== "" &&
+    utilitiesBillLimit !== "" &&
+    transportationLimit !== "" &&
+    foodDiningLimit !== "" &&
+    otherExpenseLimit !== "" &&
+    entertainment !== "";
+
+  console.log(details);
 
   const handleTypeToggle = (shouldBeExpense) => {
     setIsExpense(shouldBeExpense);
@@ -38,7 +73,7 @@ const QuickTransaction = () => {
     const { name, value } = e.target;
     let text = "";
     let bg = "";
-    console.log(e)
+    console.log(e);
     if (name === "category") {
       const selectedOption = e.target.selectedOptions[0];
       if (selectedOption) {
@@ -56,6 +91,10 @@ const QuickTransaction = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!details) {
+      setShowAlert(true);
+      return;
+    }
     // console.log(quick)
     setBalance((prev) => ({
       ...prev,
@@ -65,7 +104,8 @@ const QuickTransaction = () => {
   };
 
   return (
-    <div className="col-span-1 md:col-span-2 lg:col-span-1 bg-surface-container-low p-5 rounded-md flex flex-col gap-4">
+    <div className="relative over col-span-1 md:col-span-2 lg:col-span-1 bg-surface-container-low p-5 rounded-md flex flex-col gap-4">
+      {showAlert && <Alert />}
       <div className="flex items-center gap-2">
         <div className="text-primary-container bg-[#002113] p-2 rounded-md">
           <FaBolt />
@@ -137,7 +177,7 @@ const QuickTransaction = () => {
             value={quick.amount}
             onChange={handleChange}
             placeholder="$ 0.00"
-            className="outline-none text-body-sm rounded-sm text-white p-2 font-mono-numeric bg-surface-container focus:bg-surface-container-highest"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none outline-none text-body-sm rounded-sm text-white p-2 font-mono-numeric bg-surface-container focus:bg-surface-container-highest"
             required
           />
         </div>
@@ -174,7 +214,7 @@ const QuickTransaction = () => {
                 </option>
                 <option
                   value="Entertainment"
-                  data-text={"[#44c08c]"}
+                  data-text={"text-[#44c08c]"}
                   data-bg={"bg-[#23372e]"}
                 >
                   Entertainment

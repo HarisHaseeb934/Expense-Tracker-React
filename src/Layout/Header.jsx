@@ -4,12 +4,19 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
 
-
-
 const Header = () => {
-  const {balance, setBalance} = useContext(InitialContext);
+  const { balance, setBalance } = useContext(InitialContext);
+  const [details, setDetails] = useState({
+    totalBalance: "",
+    targetIncome: "",
+    utilitiesBillLimit: "",
+    transportationLimit: "",
+    foodDiningLimit: "",
+    otherExpenseLimit: "",
+    entertainment: "",
+  });
   console.log(useContext(InitialContext));
-  
+
   const [isNavHide, setIsNavHide] = useState(true);
   const [isModal, setModal] = useState(false);
   const modal = useRef(null);
@@ -18,32 +25,41 @@ const Header = () => {
   }
 
   function handleClick() {
-    setModal(true)
+    setModal(true);
   }
 
   function handleChange(event) {
-    let {name, value} = event.target;
-    setBalance(prev => ({...prev, [name]: +value}))
+    let { name, value } = event.target;
+    setDetails((prev) => ({ ...prev, [name]: +value }));
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    setModal(false)
+    setBalance((prev) => ({ ...prev, ...details }));
+    setDetails({
+      totalBalance: "",
+      targetIncome: "",
+      utilitiesBillLimit: "",
+      transportationLimit: "",
+      foodDiningLimit: "",
+      otherExpenseLimit: "",
+      entertainment: "",
+    });
+    setModal(false);
   }
 
   useEffect(() => {
-    function handleModal(event){
-      
-      if(modal.current && !modal.current.contains(event.target)){
-        setModal(false)
+    function handleModal(event) {
+      if (modal.current && !modal.current.contains(event.target)) {
+        setModal(false);
       }
     }
 
-    document.addEventListener("mousedown", handleModal)
+    document.addEventListener("mousedown", handleModal);
     return () => {
-      document.removeEventListener("mousedown", handleModal)
-    }
-  },[modal])
+      document.removeEventListener("mousedown", handleModal);
+    };
+  }, [modal]);
 
   return (
     <div>
@@ -95,130 +111,157 @@ const Header = () => {
           </button>
         </div>
       </header>
-      {isModal && <div className="backdrop-blur-sm fixed top-0 z-100 w-full min-h-screen">
-        <div className="max-w-lg w-full bg-surface-container-low mx-auto my-15 p-5 rounded-md" ref={modal}>
-          <div className="">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-md bg-[#24382f]">
-                <GrNotes className="text-[#4edea3] " />
+      {isModal && (
+        <div className="backdrop-blur-sm fixed top-0 z-100 w-full min-h-screen">
+          <div
+            className="max-w-lg w-full bg-surface-container-low mx-auto my-15 p-5 rounded-md"
+            ref={modal}
+          >
+            <div className="">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-md bg-[#24382f]">
+                  <GrNotes className="text-[#4edea3] " />
+                </div>
+                <h1 className="text-white font-semibold text-lg">
+                  New Transaction
+                </h1>
               </div>
-              <h1 className="text-white font-semibold text-lg">
-                New Transaction
-              </h1>
+              <p className="text-on-surface-variant text-xs">
+                Record an expense, income, or transfer
+              </p>
             </div>
-            <p className="text-on-surface-variant text-xs">
-              Record an expense, income, or transfer
-            </p>
-          </div>
-          <form className="flex flex-col gap-5 mt-4" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="totalBalanceLimit"
-                className="text-on-surface-variant text-xs"
-              >
-                TOTAL BALANCE
-              </label>
-              <input
-                type="number"
-                id="totalBalance"
-                name="totalBalance"
-                value={balance.totalBalance}
-                onChange={handleChange}
-                className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                placeholder="$0.00"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="targetIncome"
-                className="text-on-surface-variant text-xs"
-              >
-                INCOME TARGET
-              </label>
-              <input
-                type="number"
-                id="targetIncome"
-                name="targetIncome"
-                value={balance.targetIncome}
-                onChange={handleChange}
-                className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                placeholder="$0.00"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
+            <form className="flex flex-col gap-5 mt-4" onSubmit={handleSubmit}>
               <div>
                 <label
-                  htmlFor="utilitiesBillLimit"
+                  htmlFor="totalBalanceLimit"
                   className="text-on-surface-variant text-xs"
                 >
-                  Utilities & Bill
+                  TOTAL BALANCE
                 </label>
                 <input
                   type="number"
-                  id="utilitiesBillLimit"
-                  name="utilitiesBillLimit"
-                  value={balance.utilitiesBillLimit}
+                  id="totalBalance"
+                  name="totalBalance"
+                  value={details.totalBalance}
                   onChange={handleChange}
-                  className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="transportationLimit"
+                  htmlFor="targetIncome"
                   className="text-on-surface-variant text-xs"
                 >
-                  Transportation
+                  INCOME TARGET
                 </label>
                 <input
                   type="number"
-                  id="transportationLimit"
-                  name="transportationLimit"
-                  value={balance.transportationLimit}
+                  id="targetIncome"
+                  name="targetIncome"
+                  value={details.targetIncome}
                   onChange={handleChange}
-                  className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="foodDiningLimit"
-                  className="text-on-surface-variant text-xs"
-                >
-                  Food & Dining
-                </label>
-                <input
-                  type="number"
-                  id="foodDiningLimit"
-                  name="foodDiningLimit"
-                  value={balance.foodDiningLimit}
-                  onChange={handleChange}
-                  className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                  placeholder="$0.00"
-                />
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label
+                    htmlFor="utilitiesBillLimit"
+                    className="text-on-surface-variant text-xs"
+                  >
+                    Utilities & Bill
+                  </label>
+                  <input
+                    type="number"
+                    id="utilitiesBillLimit"
+                    name="utilitiesBillLimit"
+                    value={details.utilitiesBillLimit}
+                    onChange={handleChange}
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                    placeholder="$0.00"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="transportationLimit"
+                    className="text-on-surface-variant text-xs"
+                  >
+                    Transportation
+                  </label>
+                  <input
+                    type="number"
+                    id="transportationLimit"
+                    name="transportationLimit"
+                    value={details.transportationLimit}
+                    onChange={handleChange}
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                    placeholder="$0.00"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="foodDiningLimit"
+                    className="text-on-surface-variant text-xs"
+                  >
+                    Food & Dining
+                  </label>
+                  <input
+                    type="number"
+                    id="foodDiningLimit"
+                    name="foodDiningLimit"
+                    value={details.foodDiningLimit}
+                    onChange={handleChange}
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                    placeholder="$0.00"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="otherExpenseLimit"
+                    className="text-on-surface-variant text-xs"
+                  >
+                    Other Expense
+                  </label>
+                  <input
+                    type="number"
+                    id="otherExpenseLimit"
+                    name="otherExpenseLimit"
+                    value={details.otherExpenseLimit}
+                    onChange={handleChange}
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                    placeholder="$0.00"
+                  />
+                </div>
               </div>
               <div>
                 <label
                   htmlFor="otherExpenseLimit"
                   className="text-on-surface-variant text-xs"
                 >
-                  Other Expense
+                  Entertainment
                 </label>
                 <input
                   type="number"
-                  id="otherExpenseLimit"
-                  name="otherExpenseLimit"
-                  value={balance.otherExpenseLimit}
+                  id="entertainment"
+                  name="entertainment"
+                  value={details.entertainment}
                   onChange={handleChange}
-                  className="rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
+                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
                   placeholder="$0.00"
                 />
               </div>
-            </div>
-            <button className="bg-[#4edea3] w-fullfont-bold rounded-sm py-2 mb-5" type="submit">ADD</button>
-          </form>
+              <button
+                className="bg-[#4edea3] w-fullfont-bold rounded-sm py-2 mb-5"
+                type="submit"
+              >
+                ADD
+              </button>
+            </form>
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };

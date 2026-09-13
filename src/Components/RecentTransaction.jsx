@@ -1,10 +1,27 @@
 import { IoSearchOutline } from "react-icons/io5";
 import RecentTableRow from "./RecentTableRow";
+import { useState } from "react";
 
 const RecentTransaction = ({ transaction }) => {
-
+  const [search, setSearch] = useState("all");
+  // function handleSearch(trans){
+  //   if(search){
+  //     return trans.
+  //   }
+  // }
+  // const filterRecent = transaction.filter(trans => handleSearch()) 
   console.log(transaction)
-  return (
+
+  const searchFilter = (tran) =>{
+    if(search === "all"){
+      return tran
+    }
+    return tran.type === search
+  }
+  
+  const filter = transaction.filter(tran => searchFilter(tran))
+  console.log(filter)
+  return (  
     <div className="bg-surface-container-low p-5 rounded-md flex flex-col gap-4 col-span-full">
       <div className="flex md:justify-between md:items-center flex-col md:flex-row gap-4">
         <div>
@@ -13,13 +30,10 @@ const RecentTransaction = ({ transaction }) => {
             Real-time ledger updates across synchronized cards
           </p>
         </div>
-        <div className="bg-[#201f1f] flex items-center p-2 w-full  md:w-2xs rounded-sm">
-          <IoSearchOutline className="text-on-surface-variant text-sm" />
-          <input
-            type="text"
-            placeholder="Search transactions, merchants..."
-            className="text-white text-xs sm:text-sm md:text-base outline-none w-full px-2"
-          />
+        <div className=" flex items-center gap-8">
+          <button className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-sm cursor-pointer hover:text-red-400" onClick={() => setSearch("all")}>All</button>
+          <button className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-sm cursor-pointer hover:text-red-400" onClick={() => setSearch("expense")}>Expense</button>
+          <button className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-sm cursor-pointer hover:text-red-400" onClick={() => setSearch("income")}>Income</button>
         </div>
       </div>
 
@@ -34,8 +48,8 @@ const RecentTransaction = ({ transaction }) => {
           </tr>
         </thead>
         <tbody>
-          {transaction.length > 0 &&
-            transaction.map((trans, index) => {
+          {filter.length > 0 &&
+            filter.map((trans, index) => {
               let { data, title, category, type, amount } = trans;
               return (
                 <RecentTableRow
