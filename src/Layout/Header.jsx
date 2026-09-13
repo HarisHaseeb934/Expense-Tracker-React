@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
+import Input from "../Components/Dashboard/Input";
 
 const Header = () => {
   const { balance, setBalance } = useContext(InitialContext);
@@ -63,7 +64,7 @@ const Header = () => {
 
   return (
     <div>
-      <header className="relative max-w-7xl w-full m-auto px-5 py-5 flex justify-between items-center gap-3 md:gap-7">
+      <header className="relative max-w-8xl w-full m-auto px-5 py-5 flex justify-between items-center gap-3 md:gap-7">
         <div className="flex justify-between items-center gap-3 md:gap-7">
           <div className="flex items-center">
             <img src="Logo.png" alt="FinFlow Logo" className="w-10" />
@@ -131,127 +132,66 @@ const Header = () => {
               </p>
             </div>
             <form className="flex flex-col gap-5 mt-4" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="totalBalanceLimit"
-                  className="text-on-surface-variant text-xs"
-                >
-                  TOTAL BALANCE
-                </label>
-                <input
-                  type="number"
-                  id="totalBalance"
-                  name="totalBalance"
-                  value={details.totalBalance}
-                  onChange={handleChange}
-                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                  placeholder="$0.00"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="targetIncome"
-                  className="text-on-surface-variant text-xs"
-                >
-                  INCOME TARGET
-                </label>
-                <input
-                  type="number"
-                  id="targetIncome"
-                  name="targetIncome"
-                  value={details.targetIncome}
-                  onChange={handleChange}
-                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                  placeholder="$0.00"
-                />
-              </div>
+              <Input
+                title={"TOTAL BALANCE"}
+                type={"number"}
+                name={"totalBalance"}
+                value={details.totalBalance}
+                onChange={handleChange}
+                placeholder={"$ 0.00"}
+              />
+
+              <Input
+                title={"INCOME TARGET"}
+                type={"number"}
+                name={"targetIncome"}
+                value={details.targetIncome}
+                onChange={handleChange}
+                placeholder={"$ 0.00"}
+              />
+
               <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label
-                    htmlFor="utilitiesBillLimit"
-                    className="text-on-surface-variant text-xs"
-                  >
-                    Utilities & Bill
-                  </label>
-                  <input
-                    type="number"
-                    id="utilitiesBillLimit"
-                    name="utilitiesBillLimit"
-                    value={details.utilitiesBillLimit}
-                    onChange={handleChange}
-                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                    placeholder="$0.00"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="transportationLimit"
-                    className="text-on-surface-variant text-xs"
-                  >
-                    Transportation
-                  </label>
-                  <input
-                    type="number"
-                    id="transportationLimit"
-                    name="transportationLimit"
-                    value={details.transportationLimit}
-                    onChange={handleChange}
-                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                    placeholder="$0.00"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="foodDiningLimit"
-                    className="text-on-surface-variant text-xs"
-                  >
-                    Food & Dining
-                  </label>
-                  <input
-                    type="number"
-                    id="foodDiningLimit"
-                    name="foodDiningLimit"
-                    value={details.foodDiningLimit}
-                    onChange={handleChange}
-                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                    placeholder="$0.00"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="otherExpenseLimit"
-                    className="text-on-surface-variant text-xs"
-                  >
-                    Other Expense
-                  </label>
-                  <input
-                    type="number"
-                    id="otherExpenseLimit"
-                    name="otherExpenseLimit"
-                    value={details.otherExpenseLimit}
-                    onChange={handleChange}
-                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                    placeholder="$0.00"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="otherExpenseLimit"
-                  className="text-on-surface-variant text-xs"
-                >
-                  Entertainment
-                </label>
-                <input
-                  type="number"
-                  id="entertainment"
-                  name="entertainment"
-                  value={details.entertainment}
+                <Input
+                  title={"Utilities & Bill"}
+                  type={"number"}
+                  name={"utilitiesBillLimit"}
+                  value={details.utilitiesBillLimit}
                   onChange={handleChange}
-                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-sm bg-[#1e1e1e] w-full p-2 outline-none text-white text-sm"
-                  placeholder="$0.00"
+                  placeholder={"$ 0.00"}
+                />
+                <Input
+                  title={"Transportation"}
+                  type={"number"}
+                  name={"transportationLimit"}
+                  value={details.transportationLimit}
+                  onChange={handleChange}
+                  placeholder={"$ 0.00"}
+                />
+                <Input
+                  title={"Food & Dining"}
+                  type={"number"}
+                  name={"foodDiningLimit"}
+                  value={details.foodDiningLimit}
+                  onChange={handleChange}
+                  placeholder={"$ 0.00"}
+                />
+                <Input
+                  title={"Other Expense"}
+                  type={"number"}
+                  name={"otherExpenseLimit"}
+                  value={details.otherExpenseLimit}
+                  onChange={handleChange}
+                  placeholder={"$ 0.00"}
                 />
               </div>
+              <Input
+                title={"Entertainment"}
+                type={"number"}
+                name={"entertainment"}
+                value={details.entertainment}
+                onChange={handleChange}
+                placeholder={"$ 0.00"}
+              />
               <button
                 className="bg-[#4edea3] w-fullfont-bold rounded-sm py-2 mb-5"
                 type="submit"

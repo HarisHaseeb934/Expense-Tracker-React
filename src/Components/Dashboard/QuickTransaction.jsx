@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
-import { InitialContext } from "../Custom Hooks/InitialBalance";
+import Input from "./Input";
 import Alert from "./Alert";
+import { InitialContext } from "../../Custom Hooks/InitialBalance";
 
 const expense = {
   title: "",
@@ -23,6 +24,60 @@ const income = {
   type: "income",
   text: "text-[#44c08c]",
   bg: "bg-[#23372e]",
+};
+
+const expenseOptions = {
+  "Food & Dining": {
+    dataText: "text-[#ac787c]",
+    dataBg: "bg-[#3d282a]",
+  },
+  "Rent & Housing": {
+    dataText: "text-[#abace4]",
+    dataBg: "bg-[#34333c]",
+  },
+  Entertainment: {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
+  "Utilities & Bills": {
+    dataText: "text-[#abace4]",
+    dataBg: "bg-[#34333c]",
+  },
+  Transportation: {
+    dataText: "text-[#abace4]",
+    dataBg: "bg-[#34333c]",
+  },
+  Healthcare: {
+    dataText: "text-[#ac787c]",
+    dataBg: "bg-[#3d282a]",
+  },
+  "Other Expense": {
+    dataText: "text-[#ac787c]",
+    dataBg: "bg-[#3d282a]",
+  },
+};
+
+const incomeOptions = {
+  "Salary & Payroll": {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
+  "Freelance & Contract": {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
+  "Investments & Dividends": {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
+  "Side Project & Sales": {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
+  "Other Income": {
+    dataText: "text-[#44c08c]",
+    dataBg: "bg-[#23372e]",
+  },
 };
 
 const QuickTransaction = () => {
@@ -140,47 +195,26 @@ const QuickTransaction = () => {
       </div>
 
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-        <div className="flex flex-col">
-          <label
-            htmlFor="title"
-            className="text-on-surface-variant text-[11px]"
-          >
-            TITLE / MERCHANT
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={quick.title}
-            onChange={handleChange}
-            placeholder={
-              isExpense
-                ? "e.g. Whole Foods Market"
-                : "e.g. Client Wire, Employer Payroll"
-            }
-            className="outline-none text-body-sm rounded-sm text-white p-2 bg-surface-container focus:bg-surface-container-highest"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label
-            htmlFor="amount"
-            className="text-on-surface-variant text-[11px]"
-          >
-            AMOUNT
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={quick.amount}
-            onChange={handleChange}
-            placeholder="$ 0.00"
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none outline-none text-body-sm rounded-sm text-white p-2 font-mono-numeric bg-surface-container focus:bg-surface-container-highest"
-            required
-          />
-        </div>
+        <Input
+          title={"TITLE / MERCHANT"}
+          type={"text"}
+          name={"title"}
+          value={quick.title}
+          onChange={handleChange}
+          placeholder={
+            isExpense
+              ? "e.g. Whole Foods Market"
+              : "e.g. Client Wire, Employer Payroll"
+          }
+        />
+        <Input
+          title={"AMOUNT"}
+          type={"number"}
+          name={"amount"}
+          value={quick.amount}
+          onChange={handleChange}
+          placeholder={"$ 0.00"}
+        />
 
         <div className="flex flex-col">
           <label
@@ -196,97 +230,33 @@ const QuickTransaction = () => {
             onChange={handleChange}
             className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container focus:bg-surface-container-highest"
           >
-            {isExpense ? (
-              <>
-                <option
-                  value="Food & Dining"
-                  data-text="text-[#ac787c]"
-                  data-bg={"bg-[#3d282a]"}
-                >
-                  Food & Dining
-                </option>
-                <option
-                  value="Rent & Housing"
-                  data-text="text-[#abace4]"
-                  data-bg={"bg-[#34333c]"}
-                >
-                  Rent & Housing
-                </option>
-                <option
-                  value="Entertainment"
-                  data-text={"text-[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Entertainment
-                </option>
-                <option
-                  value="Utilities & Bills"
-                  data-text="text-[#abace4]"
-                  data-bg={"bg-[#34333c]"}
-                >
-                  Utilities & Bills
-                </option>
-                <option
-                  value="Transportation"
-                  data-text="text-[#abace4]"
-                  data-bg={"bg-[#34333c]"}
-                >
-                  Transportation
-                </option>
-                <option
-                  value="Healthcare"
-                  data-text="text-[#ac787c]"
-                  data-bg={"bg-[#3d282a]"}
-                >
-                  Healthcare
-                </option>
-                <option
-                  value="Other Expense"
-                  data-text="text-[#ac787c]"
-                  data-bg={"bg-[#3d282a]"}
-                >
-                  Other Expense
-                </option>
-              </>
-            ) : (
-              <>
-                <option
-                  value="Salary & Payroll"
-                  data-text={"[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Salary & Payroll
-                </option>
-                <option
-                  value="Freelance & Contract"
-                  data-text={"[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Freelance & Contract
-                </option>
-                <option
-                  value="Investments & Dividends"
-                  data-text={"[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Investments & Dividends
-                </option>
-                <option
-                  value="Side Project & Sales"
-                  data-text={"[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Side Project & Sales
-                </option>
-                <option
-                  value="Other Income"
-                  data-text={"[#44c08c]"}
-                  data-bg={"bg-[#23372e]"}
-                >
-                  Other Income
-                </option>
-              </>
-            )}
+            {isExpense
+              ? Object.entries(expenseOptions).map(
+                  ([value, { dataText, dataBg }]) => {
+                    return (
+                      <option
+                        value={value}
+                        data-text={dataText}
+                        data-bg={dataBg}
+                      >
+                        {value}
+                      </option>
+                    );
+                  },
+                )
+              : Object.entries(incomeOptions).map(
+                  ([value, { dataText, dataBg }]) => {
+                    return (
+                      <option
+                        value={value}
+                        data-text={dataText}
+                        data-bg={dataBg}
+                      >
+                        {value}
+                      </option>
+                    );
+                  },
+                )}
           </select>
         </div>
 
@@ -310,20 +280,13 @@ const QuickTransaction = () => {
           </select>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="date" className="text-on-surface-variant text-[11px]">
-            DATE
-          </label>
-          <input
-            type="date"
-            name="date"
-            id="date"
-            value={quick.date}
-            onChange={handleChange}
-            className="outline-none text-body-sm rounded-sm text-on-surface p-2 bg-surface-container focus:bg-surface-container-highest"
-            required
-          />
-        </div>
+        <Input
+          title={"DATE"}
+          type={"date"}
+          name={"date"}
+          value={quick.date}
+          onChange={handleChange}
+        />
 
         <button
           className={`text-black ${

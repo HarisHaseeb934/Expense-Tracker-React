@@ -1,10 +1,10 @@
-import DashboardSvg from "../Components/DashboardSvg";
-import DashboardTotalCard from "../Components/DashboardTotalCard";
+import DashboardSvg from "../Components/Dashboard/TotalMoneyCard/DashboardSvg";
+import DashboardTotalCard from "../Components/Dashboard/TotalMoneyCard/DashboardTotalCard";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { MdArrowOutward } from "react-icons/md";
-import ExpenseBreakdown from "../Components/ExpenseBreakdown";
-import QuickTransaction from "../Components/QuickTransaction";
-import RecentTransaction from "../Components/RecentTransaction";
+import ExpenseBreakdown from "../Components/Dashboard/ExpenseCard/ExpenseBreakdown";
+import QuickTransaction from "../Components/Dashboard/QuickTransaction";
+import RecentTransaction from "../Components/Dashboard/RecentTable/RecentTransaction";
 import { useContext } from "react";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
 
@@ -47,17 +47,6 @@ const Dashboard = () => {
     }
   }
 
-  // console.log(targetIncome)
-  // console.log(totalExpenseLimit)
-
-  // function getMonth(){
-  //   const date = new Date();
-  //   if(date.getDate() === 1){
-  //     setBalance(prev => ({...prev, income: 0}))
-  //   }
-  //   return date.toDateString().split(" ").at(1) + " " + date.toDateString().split(" ").at(3)
-  // }
-
   return (
     <section className="w-full p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <DashboardTotalCard
@@ -85,9 +74,9 @@ const Dashboard = () => {
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#26322c] text-[#2caa98] rounded-full px-2">
             <MdArrowOutward />{" "}
-            <span className="font-bold"> +$650.00 vs last month</span>
+            <span className="font-bold text-[11px] md:text-xs"> +$650.00 vs last month</span>
           </p>
-          <p className="text-on-surface-variant">{targetIncome !== "" ? ((calcIncome() / targetIncome) * 100).toFixed() : 0}% of target</p>
+          <p className="text-on-surface-variant text-[11px] md:text-xs">{((calcIncome() / targetIncome) * 100).toFixed()}% of target</p>
         </div>
       </DashboardTotalCard>
       <DashboardTotalCard
@@ -102,9 +91,9 @@ const Dashboard = () => {
         <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
           <p className="flex items-center bg-[#37191b] text-[#cba3b7] rounded-full px-2">
             <IoIosCheckmarkCircleOutline />{" "}
-            <span className="font-bold"> { totalExpenseLimit !== "" ? ((calcExpense() / totalExpenseLimit) * 100).toFixed() : 0}% under budget limit</span>
+            <span className="font-bold text-[11px] md:text-xs"> { totalExpenseLimit !== "" ? ((calcExpense() / totalExpenseLimit) * 100).toFixed() : 0}% under budget limit</span>
           </p>
-          <p className="text-on-surface-variant">${totalExpenseLimit - calcExpense()} left</p>
+          <p className="text-on-surface-variant text-[11px] md:text-xs">${totalExpenseLimit - calcExpense()} left</p>
         </div>
       </DashboardTotalCard>
 

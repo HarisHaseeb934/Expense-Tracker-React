@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import DonutExpenseCard from "./DonutExpenseCard";
 import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
-import { InitialContext } from "../Custom Hooks/InitialBalance";
+import { InitialContext } from "../../../Custom Hooks/InitialBalance";
 
 const category_map = {
   "bg-[#3d282a]": {
@@ -65,7 +65,6 @@ const ExpenseBreakdown = () => {
 
   const dynamicData = sortedColors.map(([bgClass, amount]) => {
     console.log("category_map[bgClass]", category_map[bgClass]);
-
     const data = category_map[bgClass];
     return {
       ...data,
@@ -89,7 +88,7 @@ const ExpenseBreakdown = () => {
           <h1 className="text-white font-bold text-sm md:text-base">
             Expense Breakdown
           </h1>
-          <p className="text-on-surface-variant text-xs">
+          <p className="text-on-surface-variant text-[10px] sm:text-xs">
             Categorical distribution for active cycle
           </p>
         </div>
@@ -97,7 +96,7 @@ const ExpenseBreakdown = () => {
           value={select.select}
           name="select"
           onChange={handleChange}
-          className="text-white outline-none bg-[#201f1f] p-1 md:p-2 rounded-md text-xs md:text-base"
+          className="text-white outline-none bg-[#201f1f] text-[11px] md:p-2 rounded-xs h-7 sm:h-10  md:rounded-sm sm:text-xs"
         >
           <option
             value="This Month"
