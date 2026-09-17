@@ -31,7 +31,11 @@ const ExpenseBreakdown = () => {
 
   const [select, setSelect] = useState({
     select: "This Month",
-    date: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, 0)}-${String(new Date().getDate()).padStart(2, 0)}`,
+    date: getDate(
+      new Date(
+        new Date().setDate(new Date().getDate() + 1 - new Date().getDate()),
+      ),
+    ),
   });
 
   console.log("select: ", select);
@@ -79,7 +83,7 @@ const ExpenseBreakdown = () => {
 
     return `${year}-${month}-${daten}`;
   }
-  getDate(new Date(new Date().setDate(new Date().getDate())));
+  // getDate(new Date(new Date().setDate(new Date().getDate())));
 
   return (
     <div className="col-span-1 md:col-span-2 bg-surface-container-low p-5 rounded-md">
@@ -101,7 +105,11 @@ const ExpenseBreakdown = () => {
           <option
             value="This Month"
             data-date={getDate(
-              new Date(new Date().setDate(new Date().getDate())),
+              new Date(
+                new Date().setDate(
+                  new Date().getDate() + 1 - new Date().getDate(),
+                ),
+              ),
             )}
           >
             This Month

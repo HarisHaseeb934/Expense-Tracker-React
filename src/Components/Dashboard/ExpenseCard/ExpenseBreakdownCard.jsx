@@ -7,7 +7,7 @@ const ExpenseBreakdownCard = ({color, percentage, price, label}) => {
       </div>
       <div className="flex justify-between items-center">
         <span className="text-white font-bold">{percentage}%</span>
-        <span className="text-on-surface-variant text-[12px]">${price}</span>
+        <span className="text-on-surface-variant text-[12px]">${price.toFixed(2)}</span>
       </div>
     </div>
   );

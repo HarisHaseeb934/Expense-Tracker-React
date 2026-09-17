@@ -25,19 +25,19 @@ const RecentTransaction = ({ transaction }) => {
         </div>
         <div className=" flex items-center gap-8">
           <button
-            className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
+            className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("all")}
           >
             All
           </button>
           <button
-            className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
+            className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("expense")}
           >
             Expense
           </button>
           <button
-            className="bg-[#201f1f] px-3 text-red-300 rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
+            className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("income")}
           >
             Income

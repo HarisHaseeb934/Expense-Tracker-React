@@ -54,7 +54,7 @@ const Dashboard = () => {
         icon="AiOutlineRise"
         gap="gap-5 md:col-span-2 lg:col-span-1"
         iconClass="bg-[#26322c] text-[#2caa98] p-1 rounded-sm flex items-center"
-        money={totalBalance ? totalBalance : 0}
+        money={totalBalance ? totalBalance.toFixed(2) : 0}
         h1class="text-white"
         para="Avaliable across 1 connected accounts"
       >
@@ -67,7 +67,7 @@ const Dashboard = () => {
         icon="FaArrowUp"
         gap="gap-7 col-span-1"
         iconClass="bg-[#26322c] text-[#2caa98] p-2 rounded-sm flex items-center"
-        money={calcIncome()}
+        money={calcIncome().toFixed(2)}
         h1class="text-[#4edea3]"
         para={`${getMonth()} payroll & contract`}
       >
@@ -84,7 +84,7 @@ const Dashboard = () => {
         icon="FaArrowDown"
         gap="gap-7 col-span-1"
         iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
-        money={calcExpense()}
+        money={calcExpense().toFixed(2)}
         h1class="text-[#ffb2b7]"
         para={`Monthly cap: ${totalExpenseLimit || 0}`}
       >
@@ -93,7 +93,7 @@ const Dashboard = () => {
             <IoIosCheckmarkCircleOutline />{" "}
             <span className="font-bold text-[11px] md:text-xs"> { totalExpenseLimit !== "" ? ((calcExpense() / totalExpenseLimit) * 100).toFixed() : 0}% under budget limit</span>
           </p>
-          <p className="text-on-surface-variant text-[11px] md:text-xs">${totalExpenseLimit - calcExpense()} left</p>
+          <p className="text-on-surface-variant text-[11px] md:text-xs">${(totalExpenseLimit - calcExpense()).toFixed(2)} left</p>
         </div>
       </DashboardTotalCard>
 
