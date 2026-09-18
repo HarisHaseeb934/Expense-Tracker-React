@@ -12,7 +12,6 @@ function getDate(date) {
   const daten = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = String(date.getFullYear()).padStart(2, "0");
-
   return `${year}-${month}-${daten}`;
 }
 
@@ -21,19 +20,19 @@ const BTN_DATA = [
     id: 1,
     display: "30D",
     value: getDate(new Date(new Date().setDate(new Date().getDate() - 30))),
-    days: 30
+    days: 30,
   },
   {
     id: 2,
     display: "6 Months",
     value: getDate(new Date(new Date().setDate(new Date().getDate() - 180))),
-    days: 180
+    days: 180,
   },
   {
     id: 3,
     display: "YTD",
     value: getDate(new Date(new Date().getFullYear(), 0, 1)),
-    days: 365
+    days: 365,
   },
 ];
 
@@ -42,19 +41,11 @@ const Analytics = () => {
     id: 1,
     display: "30D",
     date: getDate(new Date(new Date().setDate(new Date().getDate() - 30))),
-    days: 30
+    days: 30,
   });
+
   const { balance } = useContext(InitialContext);
-  const {
-    totalBalance,
-    targetIncome,
-    utilitiesBillLimit,
-    transportationLimit,
-    foodDiningLimit,
-    otherExpenseLimit,
-    entertainment,
-    transaction,
-  } = balance;
+  const { transaction = [] } = balance;
 
   const { income, expense } = transaction.reduce(
     (acc, trans) => {
@@ -83,16 +74,13 @@ const Analytics = () => {
     } else {
       prevDate = getDate(new Date(new Date().getFullYear(), -12, 1));
     }
-
     const { prevIncome, prevExpense } = transaction.reduce(
       (acc, trans) => {
         if (trans.date >= prevDate && trans.date <= date.date) {
           const amount = Number(trans.amount);
           if (trans.type === "income") {
-            console.log("income", trans);
             acc.prevIncome += amount;
           } else if (trans.type === "expense") {
-            console.log("expense", trans);
             acc.prevExpense += amount;
           }
         }
@@ -100,12 +88,12 @@ const Analytics = () => {
       },
       { prevIncome: 0, prevExpense: 0 },
     );
-
     return { prevIncome, prevExpense };
   }
 
+  const { prevIncome, prevExpense } = prevIncomeExpense();
+
   function netCashFlow(income, expense) {
-    const { prevIncome, prevExpense } = prevIncomeExpense();
     let curr = income - expense;
     let prev = prevIncome - prevExpense;
     if (prev === 0) {
@@ -114,13 +102,38 @@ const Analytics = () => {
     return (((curr - prev) / prev) * 100).toFixed(1);
   }
 
-  function dailyAvg(income, expense){
-    const { prevIncome, prevExpense } = prevIncomeExpense();
-    let curr = expense / date.days
-    let prev = prevExpense / date.days
+  function dailyAvg(income, expense) {
+    let curr = expense / date.days;
+    let prev = prevExpense / date.days;
     if (prev === 0) return "0.0";
-    return (((curr - prev) / prev) * 100).toFixed(1)
+    return (((curr - prev) / prev) * 100).toFixed(1);
   }
+
+  const savingsRateVal = () => {
+    if (income === 0) return 0;
+    const netCashFlow = income - expense;
+    return (netCashFlow / income) * 100;
+  };
+
+  const projectedBalanceVal = () => {
+    const currentBalance = balance.currentBalance || balance.amount || 0;
+
+    const periodDays = date.days || 30;
+    const netCashFlow = income - expense;
+    const dailyNetRate = netCashFlow / periodDays;
+
+    const today = new Date();
+    const totalDaysInMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0,
+    ).getDate();
+    const remainingDays = totalDaysInMonth - today.getDate();
+
+    return currentBalance + dailyNetRate * remainingDays;
+  };
+
+  // let savingRate = savingRates() - 30
 
   return (
     <section className="w-full p-5">
@@ -129,17 +142,14 @@ const Analytics = () => {
           <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl">
             Analytics & Financial Trends
           </h1>
-          <div className="bg-[#1c1b1b] text-on-surface-variant py-1 px-2 rounded-md flex justify-between sm:justify-start text-[11px] md:text-xs lg:text-sm">
+          <div className="bg-surface-container-low text-on-surface-variant py-1 px-2 rounded-md flex justify-between sm:justify-start text-[11px] md:text-xs lg:text-sm">
             {BTN_DATA.map((btn) => {
               const { id, display, value, days } = btn;
-              console.log(days)
               return (
                 <button
                   key={id}
-                  className={`${id === date.id ? "text-white bg-[#2a2a2a]" : ""} py-1 px-4 rounded-md`}
-                  onClick={() =>
-                    setDate((prev) => ({ id, display, date: value, days}))
-                  }
+                  className={`${id === date.id ? "text-white bg-surface-container-high" : ""} py-1 px-4 rounded-md`}
+                  onClick={() => setDate({ ...btn, date: value })}
                 >
                   {display}
                 </button>
@@ -158,7 +168,7 @@ const Analytics = () => {
           Icon={
             <AiOutlineRise className={"text-[#4edea3] text-md md:text-xl"} />
           }
-          cash={income - expense}
+          cash={`$${(income - expense).toFixed(2)}`}
           color={"bg-[#212f29] text-[#c4c5ff]"}
         >
           <div className="flex justify-between items-end">
@@ -174,31 +184,34 @@ const Analytics = () => {
         <CashFlowCard
           h={"AVG. DAILY SPEND"}
           Icon={<RiCashLine className={"text-[#b4b5ec] text-md md:text-xl"} />}
-          cash={expense / date.days}
+          cash={`$${(expense / date.days).toFixed(2)}`}
           color={"bg-[#2d2c32] text-[#c4c5ff]"}
         >
           <div className="flex justify-between items-end">
             <p className="text-on-surface-variant text-xs md:text-sm">
-              <span className="text-primary">{dailyAvg(income, expense)}%</span> efficiency gain
+              <span className="text-primary">{dailyAvg(income, expense)}%</span>{" "}
+              efficiency gain
             </p>
             <TbArrowWaveLeftUp className="text-[#c4c5ff] text-4xl md:text-5xl " />
           </div>
         </CashFlowCard>
         <CashFlowCard
           h={"SAVINGS RATE"}
-          Icon={"ONTarget"}
-          cash={2500}
+          Icon={"ON Target"}
+          cash={`${savingsRateVal().toFixed(2)}%`}
           color={"bg-[#212f29] text-[#4edfa4] text-xs md:text-md lg:text-md"}
         >
           <div className="flex flex-col">
             <p className="font-bold text-on-surface-variant text-xs md:text-md">
-              Target:{" "}
+              Target: {30.0}%
             </p>
             <div className="relative overflow-hidden">
-              <div className="h-2 rounded-xl  bg-[#2a2a2a] w-full"></div>
+              <div className="h-2 rounded-xl  bg-surface-container-high w-full"></div>
               <div
                 className="absolute h-2 rounded-xl top-0 left-0 bg-[#4edfa4] "
-                style={{ width: `${50}%` }}
+                style={{
+                  width: `${Math.min(Math.max(savingsRateVal(), 0), 100)}%`,
+                }}
               ></div>
             </div>
           </div>
@@ -208,7 +221,7 @@ const Analytics = () => {
           Icon={
             <AiOutlineRise className={"text-[#4edea3] text-md md:text-xl"} />
           }
-          cash={2500}
+          cash={`$${projectedBalanceVal().toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           color={"bg-[#212f29] text-[#c4c5ff]"}
         >
           <div className="flex justify-between">
@@ -217,13 +230,13 @@ const Analytics = () => {
             </p>
             <div className="flex items-center text-sm">
               <IoIosCheckmarkCircleOutline className="text-[#4edea3]" />
-              <span className="text-white">94%</span>
+              <span className="text-white ml-1">94%</span>
             </div>
           </div>
         </CashFlowCard>
       </div>
 
-      <AnalyticsCharts />
+      <AnalyticsCharts transaction = {transaction}/>
     </section>
   );
 };

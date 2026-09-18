@@ -1,35 +1,15 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-// import { generateMockData, RechartsDevtools } from '@recharts/devtools';
+import { BarChart, Bar, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-// const data = generateMockData(6, 823);
-
-// const data = [
-//   {labe: }
-// ]
-
-const SimpleBarChart = () => {
-  return (
-    <BarChart
-      style={{ width: '100%', maxWidth: '700px', maxHeight: '70vh', aspectRatio: 1.618 }}
-      responsive
-      data={data}
-      margin={{
-        top: 5,
-        right: 0,
-        left: 0,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid />
-      <XAxis dataKey="label" />
-      <YAxis width="auto" />
+const CashFlowChart = ({ data }) => (
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+      <XAxis dataKey="label" stroke="#888" tick={{ fontSize: 10, fill: '#888888' }}/>
+      <YAxis stroke="#888" tickFormatter={(v) => `$${v / 1000}k`} tick={{ fontSize: 10, fill: '#888888' }}/>
       <Tooltip />
-      <Legend />
-      <Bar dataKey="x" radius={[10, 10, 0, 0]} />
-      <Bar dataKey="y" radius={[10, 10, 0, 0]} />
-      {/* <RechartsDevtools /> */}
+      <Bar dataKey="inflow" fill="#44c08c" radius={[4, 4, 0, 0]} name="Inflow" />
+      <Bar dataKey="outflow" fill="#ac787c" radius={[4, 4, 0, 0]} name="Outflow" />
     </BarChart>
-  );
-};
+  </ResponsiveContainer>
+);
 
-export default SimpleBarChart;
+export default CashFlowChart

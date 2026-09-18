@@ -20,7 +20,7 @@ const CashFlowCard = ({ h, Icon, cash, color, children }) => {
             {Icon}
           </div>
         </div>
-        <h1 className="text-white text-4xl font-bold">${cash.toFixed(2)}</h1>
+        <h1 className="text-white text-4xl font-bold">{cash}</h1>
       </div>
       <div className="">{children}</div>
     </div>
