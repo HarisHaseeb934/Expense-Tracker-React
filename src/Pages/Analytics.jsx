@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import CashFlowCard from "../Components/Analytics/CashFlowCard";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { TbStrokeCurved } from "react-icons/tb";
 import { TbArrowWaveLeftUp } from "react-icons/tb";
 import { TbArrowWaveRightUp } from "react-icons/tb";
 import AnalyticsCharts from "../Components/Analytics/AnalyticsCharts";
@@ -22,16 +21,19 @@ const BTN_DATA = [
     id: 1,
     display: "30D",
     value: getDate(new Date(new Date().setDate(new Date().getDate() - 30))),
+    days: 30
   },
   {
     id: 2,
     display: "6 Months",
     value: getDate(new Date(new Date().setDate(new Date().getDate() - 180))),
+    days: 180
   },
   {
     id: 3,
     display: "YTD",
     value: getDate(new Date(new Date().getFullYear(), 0, 1)),
+    days: 365
   },
 ];
 
@@ -40,6 +42,7 @@ const Analytics = () => {
     id: 1,
     display: "30D",
     date: getDate(new Date(new Date().setDate(new Date().getDate() - 30))),
+    days: 30
   });
   const { balance } = useContext(InitialContext);
   const {
@@ -53,13 +56,6 @@ const Analytics = () => {
     transaction,
   } = balance;
 
-  // console.log(new Date(new Date().setDate(new Date())))
-  // console.log("Prev 30 D " + )
-  // console.log("Prev 6 month " + )
-  // console.log("Prev YTD " + )
-
-  // const totalIncome = transaction.filter(trans => trans.type === "income" && trans.date >= date).reduce((acc, trans) => acc += trans.amount, 0)
-  // const totalExpense = transaction.filter(trans => trans.type === "expense" && trans.date >= date).reduce((acc, trans) => acc += trans.amount, 0)
   const { income, expense } = transaction.reduce(
     (acc, trans) => {
       if (trans.date >= date.date) {
@@ -74,7 +70,7 @@ const Analytics = () => {
     { income: 0, expense: 0 },
   );
 
-  function percentagePrev(income, expense) {
+  function prevIncomeExpense() {
     let prevDate = "";
     if (date.display === "30D") {
       prevDate = getDate(
@@ -93,33 +89,38 @@ const Analytics = () => {
         if (trans.date >= prevDate && trans.date <= date.date) {
           const amount = Number(trans.amount);
           if (trans.type === "income") {
-            console.log("income" , trans)
+            console.log("income", trans);
             acc.prevIncome += amount;
           } else if (trans.type === "expense") {
-            console.log("expense" , trans)  
+            console.log("expense", trans);
             acc.prevExpense += amount;
           }
         }
         return acc;
       },
-      { prevIncome: 0, prevExpense: 0 }, 
+      { prevIncome: 0, prevExpense: 0 },
     );
 
-    // console.log(prevDate);
-    // console.log(date.date);
+    return { prevIncome, prevExpense };
+  }
 
+  function netCashFlow(income, expense) {
+    const { prevIncome, prevExpense } = prevIncomeExpense();
     let curr = income - expense;
     let prev = prevIncome - prevExpense;
-    // console.log(date.display + " " + prevIncome)
-    // console.log(date.display + " " + prevExpense)
     if (prev === 0) {
-      return "+100%";
+      return "+100";
     }
     return (((curr - prev) / prev) * 100).toFixed(1);
   }
 
-  // console.log("Income" + income.toFixed(2))
-  // console.log("Expense" + expense.toFixed(2))
+  function dailyAvg(income, expense){
+    const { prevIncome, prevExpense } = prevIncomeExpense();
+    let curr = expense / date.days
+    let prev = prevExpense / date.days
+    if (prev === 0) return "0.0";
+    return (((curr - prev) / prev) * 100).toFixed(1)
+  }
 
   return (
     <section className="w-full p-5">
@@ -130,13 +131,14 @@ const Analytics = () => {
           </h1>
           <div className="bg-[#1c1b1b] text-on-surface-variant py-1 px-2 rounded-md flex justify-between sm:justify-start text-[11px] md:text-xs lg:text-sm">
             {BTN_DATA.map((btn) => {
-              const { id, display, value } = btn;
+              const { id, display, value, days } = btn;
+              console.log(days)
               return (
                 <button
                   key={id}
                   className={`${id === date.id ? "text-white bg-[#2a2a2a]" : ""} py-1 px-4 rounded-md`}
                   onClick={() =>
-                    setDate((prev) => ({ id, display, date: value }))
+                    setDate((prev) => ({ id, display, date: value, days}))
                   }
                 >
                   {display}
@@ -161,7 +163,10 @@ const Analytics = () => {
         >
           <div className="flex justify-between items-end">
             <p className="text-on-surface-variant text-xs md:text-sm">
-              {percentagePrev(income, expense)}% vs prev {date.display}
+              <span className="text-primary">
+                {netCashFlow(income, expense)}%
+              </span>{" "}
+              vs prev {date.display}
             </p>
             <TbArrowWaveRightUp className="text-[#4edea3] text-4xl md:text-5xl " />
           </div>
@@ -169,12 +174,12 @@ const Analytics = () => {
         <CashFlowCard
           h={"AVG. DAILY SPEND"}
           Icon={<RiCashLine className={"text-[#b4b5ec] text-md md:text-xl"} />}
-          cash={2500}
+          cash={expense / date.days}
           color={"bg-[#2d2c32] text-[#c4c5ff]"}
         >
           <div className="flex justify-between items-end">
             <p className="text-on-surface-variant text-xs md:text-sm">
-              efficiency gain
+              <span className="text-primary">{dailyAvg(income, expense)}%</span> efficiency gain
             </p>
             <TbArrowWaveLeftUp className="text-[#c4c5ff] text-4xl md:text-5xl " />
           </div>
