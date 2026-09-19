@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import SimpleBarChart from "./SimpleBarChart";
+import CashFlowChart from "./CashFlowChart";
 
 const BTN = [
   { id: 1, days: 7, value: "Daily", trailing: "7 Days" },
@@ -10,13 +10,12 @@ const BTN = [
 const AnalyticsCharts = ({ transaction = [] }) => {
   const [btn, setBtn] = useState(BTN[0]);
 
-  const dateArray = (transaction, getKeys) => {
+  const handleChart = (transaction, getKeys) => {
     let dateWiseObj = transaction.reduce((acc, tran) => {
       let key = getKeys(tran.date);
       if (!acc[key]) {
-        acc[key] = {};
+        acc[key] = { inflow: 0, outflow: 0 };
       }
-      acc[key] = { inflow: 0, outflow: 0 };
       let amount = Number(tran.amount);
       if (tran.type === "expense") {
         acc[key].outflow += amount;
@@ -26,8 +25,30 @@ const AnalyticsCharts = ({ transaction = [] }) => {
       return acc;
     }, {});
 
-    console.log(
-      Object.keys(dateWiseObj)
+    // console.log(
+    //   Object.keys(dateWiseObj)
+    //     .sort()
+    //     .map((key) => {
+    //       return {
+    //         label: key,
+    //         inflow: dateWiseObj[key].inflow,
+    //         outflow: dateWiseObj[key].outflow,
+    //       };
+    //     }),
+    // );
+
+    if (btn.value === "Monthly") {
+      return Object.keys(dateWiseObj)
+        .sort((a, b) => new Date(`1 ${a}`) - new Date(`1 ${b}`))
+        .map((key) => {
+          return {
+            label: key,
+            inflow: dateWiseObj[key].inflow,
+            outflow: dateWiseObj[key].outflow,
+          };
+        });
+    } else {
+      return Object.keys(dateWiseObj)
         .sort()
         .map((key) => {
           return {
@@ -35,39 +56,40 @@ const AnalyticsCharts = ({ transaction = [] }) => {
             inflow: dateWiseObj[key].inflow,
             outflow: dateWiseObj[key].outflow,
           };
-        }),
-    );
-    return Object.keys(dateWiseObj)
-      .sort()
-      .map((key) => {
-        return {
-          label: key,
-          inflow: dateWiseObj[key].inflow,
-          outflow: dateWiseObj[key].outflow,
-        };
-      });
+        });
+    }
   };
-
-
 
   function getPreviousSunday(dateInput) {
     const date = new Date(dateInput);
     const dayOfWeek = date.getDay();
     date.setDate(date.getDate() - dayOfWeek);
-    return date;
+    // `${dateArray[2]}-${dateArray[1]}-${dateArray[3]}`
+    // let dateArray = date.toString().split(" ")
+    return date.toLocaleString().split(",").at(0);
   }
-  const inputDate = new Date(transaction[0].date);
-  // const previousSunday = getPreviousSunday(inputDate);
 
-  // console.log(previousSunday.toDateString());
-
-  function getMonths(dateInput){
-    const date = new Date(dateInput)
-    let month = date.toDateString().split(" ").at(1)
-    let year = date.toDateString().split(" ").at(3)
-    return `${month} ${year}`
+  function getMonths(dateInput) {
+    const date = new Date(dateInput);
+    let month = date.toDateString().split(" ").at(1);
+    let year = date.toDateString().split(" ").at(3);
+    // `${year}-${month}`
+    return `${year}-${month}`;
   }
-console.log(getMonths(transaction[0].date))
+
+  let chartData = [];
+
+  if (btn.value === "Daily") {
+    chartData = handleChart(transaction, (dateStr) => dateStr);
+  } else if (btn.value === "Weekly") {
+    chartData = handleChart(transaction, getPreviousSunday);
+  } else {
+    chartData = handleChart(transaction, getMonths);
+  }
+
+  console.log(btn.value);
+  console.log(chartData);
+
   return (
     <div className="bg-[#1c1b1b] p-5">
       <div className="flex md:items-center justify-between items-start md:flex-row flex-col gap-5">
@@ -116,7 +138,7 @@ console.log(getMonths(transaction[0].date))
         </div>
       </div>
 
-      {/* <SimpleBarChart data={chartData} /> */}
+      <CashFlowChart data={chartData} />
     </div>
   );
 };
