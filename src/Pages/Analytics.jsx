@@ -7,6 +7,7 @@ import AnalyticsCharts from "../Components/Analytics/AnalyticsCharts";
 import { AiOutlineRise } from "react-icons/ai";
 import { RiCashLine } from "react-icons/ri";
 import { InitialContext } from "../Custom Hooks/InitialBalance";
+import Velocity from "../Components/Analytics/Velocity";
 
 function getDate(date) {
   const daten = String(date.getDate()).padStart(2, "0");
@@ -44,7 +45,9 @@ const Analytics = () => {
     days: 30,
   });
 
-  const { balance } = useContext(InitialContext);
+  const {
+    balance,
+  } = useContext(InitialContext);
   const { transaction = [] } = balance;
 
   const { income, expense } = transaction.reduce(
@@ -132,8 +135,6 @@ const Analytics = () => {
 
     return currentBalance + dailyNetRate * remainingDays;
   };
-
-  // let savingRate = savingRates() - 30
 
   return (
     <section className="w-full p-5">
@@ -236,7 +237,10 @@ const Analytics = () => {
         </CashFlowCard>
       </div>
 
-      <AnalyticsCharts transaction = {transaction}/>
+      <AnalyticsCharts transaction={transaction} />
+      <div className="flex md:flex-row flex-col">
+        <Velocity />
+      </div>
     </section>
   );
 };

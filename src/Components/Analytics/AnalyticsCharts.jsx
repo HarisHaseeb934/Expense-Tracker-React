@@ -64,8 +64,6 @@ const AnalyticsCharts = ({ transaction = [] }) => {
     const date = new Date(dateInput);
     const dayOfWeek = date.getDay();
     date.setDate(date.getDate() - dayOfWeek);
-    // `${dateArray[2]}-${dateArray[1]}-${dateArray[3]}`
-    // let dateArray = date.toString().split(" ")
     return date.toLocaleString().split(",").at(0);
   }
 
@@ -73,25 +71,24 @@ const AnalyticsCharts = ({ transaction = [] }) => {
     const date = new Date(dateInput);
     let month = date.toDateString().split(" ").at(1);
     let year = date.toDateString().split(" ").at(3);
-    // `${year}-${month}`
     return `${year}-${month}`;
   }
 
-  let chartData = [];
+  let newChart = [];
 
   if (btn.value === "Daily") {
-    chartData = handleChart(transaction, (dateStr) => dateStr);
+    let chartData = handleChart(transaction, (dateStr) => dateStr);
+    newChart = chartData.slice(-7)
   } else if (btn.value === "Weekly") {
-    chartData = handleChart(transaction, getPreviousSunday);
+    let chartData = handleChart(transaction, getPreviousSunday);
+    newChart = chartData.slice(-4)
   } else {
-    chartData = handleChart(transaction, getMonths);
+    let chartData = handleChart(transaction, getMonths);
+    newChart = chartData.slice(-6)
   }
 
-  console.log(btn.value);
-  console.log(chartData);
-
   return (
-    <div className="bg-[#1c1b1b] p-5">
+    <div className="bg-[#1c1b1b] p-5 rounded-md">
       <div className="flex md:items-center justify-between items-start md:flex-row flex-col gap-5">
         <div>
           <h2 className="text-white font-bold text-md sm:text-lg md:text-xl lg:text-xl">
@@ -100,7 +97,7 @@ const AnalyticsCharts = ({ transaction = [] }) => {
               Trailing {btn.trailing}
             </span>
           </h2>
-          <p className="text-on-surface-variant text-[11px] md:text-xs lg:text-sm">
+          <p className="text-on-surface-variant text-[10px] md:text-xs lg:text-sm">
             {btn.value} velocity breakdown comparing income streams against
             aggregate burn
           </p>
@@ -108,11 +105,11 @@ const AnalyticsCharts = ({ transaction = [] }) => {
         <div className="flex gap-4 flex-col lg:flex-row">
           <div className="flex items-center gap-3 text-[11px] md:text-xs lg:text-sm">
             <div className="flex items-center gap-2">
-              <div className="size-3 bg-[#46c18f] rounded-xs"></div>
+              <div className="size-2 md:size-3 bg-[#46c18f] rounded-xs"></div>
               <div className="text-on-surface-variant">Inflow</div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="size-3 bg-[#ffb2b7] rounded-xs"></div>
+              <div className="size-2 md:size-3 bg-[#ffb2b7] rounded-xs"></div>
               <div className="text-on-surface-variant">Outflow</div>
             </div>
             <div className="flex items-center gap-2">
@@ -120,7 +117,7 @@ const AnalyticsCharts = ({ transaction = [] }) => {
               <div className="text-on-surface-variant">Net Delta</div>
             </div>
           </div>
-          <div className="bg-[#201f1f] text-shadow-on-surface-variant flex rounded-sm text-[11px] md:text-xs lg:text-sm">
+          <div className="bg-[#201f1f] text-shadow-on-surface-variant flex justify-between rounded-sm text-[11px] md:text-xs lg:text-sm">
             {BTN.map((curbtn) => (
               <button
                 key={curbtn.id}
@@ -128,7 +125,7 @@ const AnalyticsCharts = ({ transaction = [] }) => {
                   curbtn.id === btn.id
                     ? "bg-surface-container-high text-white"
                     : ""
-                } rounded-sm px-4 py-1.5 transition-colors text-on-surface-variant`}
+                } rounded-sm md:px-4 md:py-1.5 px-2 py-1 transition-colors text-on-surface-variant`}
                 onClick={() => setBtn(curbtn)}
               >
                 {curbtn.value}
@@ -138,7 +135,7 @@ const AnalyticsCharts = ({ transaction = [] }) => {
         </div>
       </div>
 
-      <CashFlowChart data={chartData} />
+      <CashFlowChart data={newChart} />
     </div>
   );
 };
