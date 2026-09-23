@@ -1,12 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
 import Input from "../Components/Dashboard/Input";
-import { InitialContext } from "../Context/BalanceContext";
+import { BalanceContext } from "../../CustomHooks/BalanceContext";
+import { useBalance } from "../../CustomHooks/useBalance";
 
 const Header = () => {
-  const { balance, setBalance } = useContext(InitialContext);
+  const { balance, setBalance } = useBalance(BalanceContext);
   const [details, setDetails] = useState({
     totalBalance: "",
     targetIncome: "",

@@ -2,8 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./Pages/ErrorPage";
 import Applayout from "./Layout/Applayout";
 import Dashboard from "./Pages/Dashboard";
-import Analytics from "./Pages/Analytics";
-import InitialBalance from "./Context/BalanceContext";
+import { BalanceProvider } from "./Context/BalanceProvider";
+// import Analytics from "./Pages/Analytics";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/analytics",
-        element: <Analytics />,
+        // path: "/analytics",
+        // element: <Analytics />,
       },
     ],
   },
@@ -25,9 +25,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <InitialBalance>
+    <BalanceProvider>
       <RouterProvider router={router} />
-    </InitialBalance>
+    </BalanceProvider>
   );
 };
 

@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DonutExpenseCard from "./DonutExpenseCard";
 import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
-import { InitialContext } from "../../../Context/BalanceContext";
+import { BalanceContext } from "../../../../CustomHooks/BalanceContext.jsx";
+import { useBalance } from "../../../../CustomHooks/useBalance.jsx";
 
 const category_map = {
   "bg-[#3d282a]": {
@@ -27,7 +28,7 @@ const category_map = {
 const labels = ["Largest Expense", "Discretionary", "Under Target"];
 
 const ExpenseBreakdown = () => {
-  const { balance, setBalance} = useContext(InitialContext);
+  const { balance, setBalance} = useBalance(BalanceContext);
   // const  = value
   const [select, setSelect] = useState({
     select: "This Month",

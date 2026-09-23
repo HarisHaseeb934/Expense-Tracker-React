@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
 import Input from "./Input";
 import Alert from "./Alert";
-import { InitialContext } from "../../Context/BalanceContext";
+import { BalanceContext } from "../../../CustomHooks/BalanceContext.jsx";
+import { useBalance } from "../../../CustomHooks/useBalance.jsx";
 
 
 const expense = {
@@ -82,7 +83,7 @@ const incomeOptions = {
 };
 
 const QuickTransaction = () => {
-  const { balance, setBalance } = useContext(InitialContext);
+  const { balance, setBalance } = useBalance(BalanceContext);
   const [isExpense, setIsExpense] = useState(true);
   const [quick, setQuick] = useState(expense);
   const [showAlert, setShowAlert] = useState(false);

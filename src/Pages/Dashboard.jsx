@@ -5,11 +5,12 @@ import { MdArrowOutward } from "react-icons/md";
 import ExpenseBreakdown from "../Components/Dashboard/ExpenseCard/ExpenseBreakdown";
 import QuickTransaction from "../Components/Dashboard/QuickTransaction";
 import RecentTransaction from "../Components/Dashboard/RecentTable/RecentTransaction";
-import { useContext } from "react";
-import { InitialContext } from "../Context/BalanceContext";
+import { calcExpenseThisMonth, calcIncomeThisMonth } from "../../Utils/calc";
+import { useBalance } from "../../CustomHooks/useBalance.jsx";
+import { BalanceContext } from "../../CustomHooks/BalanceContext.jsx";
 
 const Dashboard = () => {
-  const { balance, setBalance } = useContext(InitialContext);
+  const { balance, setBalance } = useBalance(BalanceContext);
   const {
     totalBalance,
     targetIncome,
@@ -39,26 +40,6 @@ const Dashboard = () => {
     );
   }
 
-  function calcIncome() {
-    if (transaction.length > 0) {
-      return transaction
-        .filter((trans) => trans.type === "income")
-        .reduce((acc, trans) => (acc += Number(trans.amount)), 0);
-    } else {
-      return 0;
-    }
-  }
-
-  function calcExpense() {
-    if (transaction.length > 0) {
-      return transaction
-        .filter((trans) => trans.type === "expense")
-        .reduce((acc, trans) => (acc += Number(trans.amount)), 0);
-    } else {
-      return 0;
-    }
-  }
-
   return (
     <>
       <title>Dashboard</title>
@@ -81,7 +62,7 @@ const Dashboard = () => {
           icon="FaArrowUp"
           gap="gap-7 col-span-1"
           iconClass="bg-[#26322c] text-[#2caa98] p-2 rounded-sm flex items-center"
-          money={calcIncome().toFixed(2)}
+          money={calcIncomeThisMonth(transaction).toFixed(2)}
           h1class="text-[#4edea3]"
           para={`${getMonth()} payroll & contract`}
         >
@@ -94,7 +75,8 @@ const Dashboard = () => {
               </span>
             </p>
             <p className="text-on-surface-variant text-[11px] md:text-xs">
-              {((calcIncome() / targetIncome) * 100).toFixed()}% of target
+              {((calcIncomeThisMonth(transaction) / targetIncome) * 100).toFixed()}% of
+              target
             </p>
           </div>
         </DashboardTotalCard>
@@ -103,7 +85,7 @@ const Dashboard = () => {
           icon="FaArrowDown"
           gap="gap-7 col-span-1"
           iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
-          money={calcExpense().toFixed(2)}
+          money={calcExpenseThisMonth(transaction).toFixed(2)}
           h1class="text-[#ffb2b7]"
           para={`Monthly cap: ${totalExpenseLimit || 0}`}
         >
@@ -113,23 +95,23 @@ const Dashboard = () => {
               <span className="font-bold text-[11px] md:text-xs">
                 {" "}
                 {totalExpenseLimit !== ""
-                  ? ((calcExpense() / totalExpenseLimit) * 100).toFixed()
+                  ? (
+                      (calcExpenseThisMonth(transaction) / totalExpenseLimit) *
+                      100
+                    ).toFixed()
                   : 0}
                 % under budget limit
               </span>
             </p>
             <p className="text-on-surface-variant text-[11px] md:text-xs">
-              ${(totalExpenseLimit - calcExpense()).toFixed(2)} left
+              ${(totalExpenseLimit - calcExpenseThisMonth(transaction)).toFixed(2)} left
             </p>
           </div>
         </DashboardTotalCard>
 
-        {/* Chart and Form */}
-
         <ExpenseBreakdown />
         <QuickTransaction />
 
-        {/* Recent Transaction */}
         <RecentTransaction transaction={transaction} />
       </section>
     </>
