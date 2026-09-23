@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { FaBolt } from "react-icons/fa6";
 import Input from "./Input";
 import Alert from "./Alert";
-import { InitialContext } from "../../Custom Hooks/InitialBalance";
+import { InitialContext } from "../../Context/BalanceContext";
+
 
 const expense = {
   title: "",
@@ -28,7 +29,7 @@ const income = {
 
 const expenseOptions = {
   "Food & Dining": {
-    dataText: "text-[#ac787c]",
+    dataText: "text-[#ffb2b7]",
     dataBg: "bg-[#3d282a]",
   },
   "Rent & Housing": {
@@ -48,7 +49,7 @@ const expenseOptions = {
     dataBg: "bg-[#34333c]",
   },
   Healthcare: {
-    dataText: "text-[#ac787c]",
+    dataText: "text-[#ffb2b7]",
     dataBg: "bg-[#3d282a]",
   },
   "Other Expense": {
@@ -117,8 +118,6 @@ const QuickTransaction = () => {
     otherExpenseLimit !== "" &&
     entertainment !== "";
 
-  console.log(details);
-
   const handleTypeToggle = (shouldBeExpense) => {
     setIsExpense(shouldBeExpense);
     setQuick(shouldBeExpense ? expense : income);
@@ -128,7 +127,6 @@ const QuickTransaction = () => {
     const { name, value } = e.target;
     let text = "";
     let bg = "";
-    console.log(e);
     if (name === "category") {
       const selectedOption = e.target.selectedOptions[0];
       if (selectedOption) {
@@ -150,7 +148,6 @@ const QuickTransaction = () => {
       setShowAlert(true);
       return;
     }
-    // console.log(quick)
     setBalance((prev) => ({
       ...prev,
       transaction: [...prev.transaction, quick],

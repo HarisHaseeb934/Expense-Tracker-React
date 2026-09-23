@@ -3,8 +3,6 @@ import { useState } from "react";
 
 const RecentTransaction = ({ transaction }) => {
   const [search, setSearch] = useState("all");
-  console.log(transaction);
-
   const searchFilter = (tran) => {
     if (search === "all") {
       return tran;
@@ -13,7 +11,6 @@ const RecentTransaction = ({ transaction }) => {
   };
 
   const filter = transaction.filter((tran) => searchFilter(tran));
-  console.log(filter);
   return (
     <div className="bg-surface-container-low p-5 rounded-md flex flex-col gap-4 col-span-full">
       <div className="flex md:justify-between md:items-center flex-col md:flex-row gap-4">
@@ -25,18 +22,21 @@ const RecentTransaction = ({ transaction }) => {
         </div>
         <div className=" flex items-center gap-8">
           <button
+            type="button"
             className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("all")}
           >
             All
           </button>
           <button
+            type="button"
             className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("expense")}
           >
             Expense
           </button>
           <button
+            type="button"
             className="bg-[#201f1f] px-3 text-on-surface-variant rounded-sm text-[10px] sm:text-sm cursor-pointer hover:text-red-400"
             onClick={() => setSearch("income")}
           >
@@ -56,10 +56,13 @@ const RecentTransaction = ({ transaction }) => {
           </tr>
         </thead>
         <tbody>
-          {filter.length > 0 &&
+          {filter.length > 0 ? (
             filter.map((trans, index) => {
               return <RecentTableRow key={index} {...trans} />;
-            })}
+            })
+          ) : (
+            <p>No transactions yet</p>
+          )}
         </tbody>
       </table>
     </div>

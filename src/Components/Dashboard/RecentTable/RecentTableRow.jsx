@@ -11,13 +11,15 @@ const RecentTableRow = ({
   return (
     <tr className="font-normal ">
       <td className="py-3 ">{date}</td>
-      <td className="py-3 text-white flex items-center md:gap-3">
-        <span
-          className={`text-md md:text-lg ${text} ${bg} hidden sm:flex sm:items-center sm:justify-center size-4 md:size-7 rounded-full`}
-        >
-          {title.slice(0, 1).toUpperCase()}
-        </span>
-        <span>{title.toUpperCase()}</span>
+      <td className="py-3 text-white">
+        <div className=" flex items-center md:gap-3">
+          <span
+            className={`text-md md:text-lg ${text} ${bg} hidden sm:flex sm:items-center sm:justify-center size-4 md:size-7 rounded-full`}
+          >
+            {title.slice(0, 1).toUpperCase()}
+          </span>
+          <span>{title.toUpperCase()}</span>
+        </div>
       </td>
       <td className={`py-3`}>
         <span className={`sm:${bg} ${text} sm:py-1 sm:px-2 rounded-2xl`}>

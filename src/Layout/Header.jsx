@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GrNotes } from "react-icons/gr";
-import { InitialContext } from "../Custom Hooks/InitialBalance";
 import Input from "../Components/Dashboard/Input";
+import { InitialContext } from "../Context/BalanceContext";
 
 const Header = () => {
   const { balance, setBalance } = useContext(InitialContext);
@@ -16,11 +16,11 @@ const Header = () => {
     otherExpenseLimit: "",
     entertainment: "",
   });
-  console.log(useContext(InitialContext));
 
   const [isNavHide, setIsNavHide] = useState(true);
   const [isModal, setModal] = useState(false);
   const modal = useRef(null);
+  const nav = useRef(null);
   function navStyle({ isActive }) {
     return `${isActive ? "text-on-surface bg-surface-container-high" : ""} block w-full p-2 md:p-3 rounded-sm text-sm font-medium hover:bg-surface-container-high`;
   }
@@ -54,6 +54,9 @@ const Header = () => {
       if (modal.current && !modal.current.contains(event.target)) {
         setModal(false);
       }
+      if(nav.current && !nav.current.contains(event.target)){
+        setIsNavHide(true)
+      }
     }
 
     document.addEventListener("mousedown", handleModal);
@@ -76,7 +79,8 @@ const Header = () => {
             </NavLink>
           </div>
           <nav
-            className={`${isNavHide ? "hidden" : "absolute top-full inset-x-0 bg-surface-container-low p-4 z-50 text-center border-b border-outline-variant shadow-overlay"} sm:static sm:block sm:p-0 sm:border-none sm:bg-transparent sm:shadow-none`}
+            className={`${isNavHide === true ? "hidden" : "absolute top-full inset-x-0 bg-surface-container-low p-4 z-50 text-center border-b border-outline-variant shadow-overlay"} sm:static sm:block sm:p-0 sm:border-none sm:bg-transparent sm:shadow-none`}
+            ref={nav}
           >
             <ul className="flex flex-col sm:flex-row text-on-surface-variant gap-2">
               <li>
@@ -87,11 +91,6 @@ const Header = () => {
               <li>
                 <NavLink to={"/analytics"} className={navStyle}>
                   Analytics
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to={"/exchange"} className={navStyle}>
-                  Live Exchange Rates
                 </NavLink>
               </li>
             </ul>

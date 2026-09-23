@@ -25,18 +25,6 @@ const AnalyticsCharts = ({ transaction = [] }) => {
       return acc;
     }, {});
 
-    // console.log(
-    //   Object.keys(dateWiseObj)
-    //     .sort()
-    //     .map((key) => {
-    //       return {
-    //         label: key,
-    //         inflow: dateWiseObj[key].inflow,
-    //         outflow: dateWiseObj[key].outflow,
-    //       };
-    //     }),
-    // );
-
     if (btn.value === "Monthly") {
       return Object.keys(dateWiseObj)
         .sort((a, b) => new Date(`1 ${a}`) - new Date(`1 ${b}`))

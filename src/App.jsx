@@ -3,7 +3,7 @@ import ErrorPage from "./Pages/ErrorPage";
 import Applayout from "./Layout/Applayout";
 import Dashboard from "./Pages/Dashboard";
 import Analytics from "./Pages/Analytics";
-import InitialBalance from "./Custom Hooks/InitialBalance";
+import InitialBalance from "./Context/BalanceContext";
 
 const router = createBrowserRouter([
   {

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 
 export const InitialContext = createContext();
 
@@ -29,7 +29,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -49,7 +49,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -69,7 +69,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -89,7 +89,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -109,7 +109,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -139,7 +139,7 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -199,7 +199,7 @@ const InitialBalance = ({ children }) => {
         category: "Healthcare",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
       {
@@ -209,13 +209,14 @@ const InitialBalance = ({ children }) => {
         category: "Food & Dining",
         transactionType: "Credit",
         type: "expense",
-        text: "text-[#ac787c]",
+        text: "text-[#ffb2b7]",
         bg: "bg-[#3d282a]",
       },
     ],
   });
+  const value = useMemo(() => ({ balance, setBalance }), [balance]);
   return (
-    <InitialContext value={{ balance, setBalance }}>{children}</InitialContext>
+    <InitialContext value={value}>{children}</InitialContext>
   );
 };
 

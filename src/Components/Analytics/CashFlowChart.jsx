@@ -21,8 +21,6 @@ const CashFlowChart = ({ data }) => {
     };
   }, []);
 
-  console.log(width);
-  console.log(data);
   return (
     <ResponsiveContainer width="100%" aspect={1.618} maxHeight={500}>
       <BarChart

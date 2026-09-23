@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import DonutExpenseCard from "./DonutExpenseCard";
 import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
-import { InitialContext } from "../../../Custom Hooks/InitialBalance";
+import { InitialContext } from "../../../Context/BalanceContext";
 
 const category_map = {
   "bg-[#3d282a]": {
@@ -27,8 +27,8 @@ const category_map = {
 const labels = ["Largest Expense", "Discretionary", "Under Target"];
 
 const ExpenseBreakdown = () => {
-  const { balance, setBalance } = useContext(InitialContext);
-
+  const { balance, setBalance} = useContext(InitialContext);
+  // const  = value
   const [select, setSelect] = useState({
     select: "This Month",
     date: getDate(
@@ -38,10 +38,8 @@ const ExpenseBreakdown = () => {
     ),
   });
 
-  console.log("select: ", select);
   function handleChange(e) {
     const { name, value } = e.target;
-    console.log("Date Change", e.currentTarget.selectedOptions[0].dataset.date);
     const date = e.currentTarget.selectedOptions[0].dataset.date;
     setSelect((prev) => ({
       ...prev,
@@ -68,7 +66,6 @@ const ExpenseBreakdown = () => {
   const sortedColors = Object.entries(colors).sort((a, b) => b[1] - a[1]);
 
   const dynamicData = sortedColors.map(([bgClass, amount]) => {
-    console.log("category_map[bgClass]", category_map[bgClass]);
     const data = category_map[bgClass];
     return {
       ...data,
