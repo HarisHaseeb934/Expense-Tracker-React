@@ -5,9 +5,15 @@ import { MdArrowOutward } from "react-icons/md";
 import ExpenseBreakdown from "../Components/Dashboard/ExpenseCard/ExpenseBreakdown";
 import QuickTransaction from "../Components/Dashboard/QuickTransaction";
 import RecentTransaction from "../Components/Dashboard/RecentTable/RecentTransaction";
-import { calcExpenseThisMonth, calcIncomeThisMonth } from "../../Utils/calc";
+import {
+  getThisMonthName,
+  showThisMonthExpense,
+  showThisMonthIncome,
+  totalBalanceCalc,
+} from "../../Utils/calc";
 import { useBalance } from "../../CustomHooks/useBalance.jsx";
 import { BalanceContext } from "../../CustomHooks/BalanceContext.jsx";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const { balance, setBalance } = useBalance(BalanceContext);
@@ -26,20 +32,17 @@ const Dashboard = () => {
     utilitiesBillLimit +
     transportationLimit +
     foodDiningLimit +
-    otherExpenseLimit;
+    otherExpenseLimit +
+    entertainment;
 
-  function getMonth() {
-    const date = new Date();
-    if (date.getDate() === 1) {
-      setBalance((prev) => ({ ...prev, income: 0 }));
-    }
-    return (
-      date.toDateString().split(" ").at(1) +
-      " " +
-      date.toDateString().split(" ").at(3)
-    );
-  }
-
+  const monthName = getThisMonthName();
+  const income = showThisMonthIncome(transaction);
+  const expense = showThisMonthExpense(transaction);
+  let totalBal;
+  useEffect(() => {
+    totalBal = totalBalanceCalc(balance, setBalance);
+  }, [transaction]);
+  console.log(totalBal)
   return (
     <>
       <title>Dashboard</title>
@@ -49,7 +52,7 @@ const Dashboard = () => {
           icon="AiOutlineRise"
           gap="gap-5 md:col-span-2 lg:col-span-1"
           iconClass="bg-[#26322c] text-[#2caa98] p-1 rounded-sm flex items-center"
-          money={totalBalance ? totalBalance.toFixed(2) : 0}
+          money={(totalBal ? totalBal : 0)}
           h1class="text-white"
           para="Avaliable across 1 connected accounts"
         >
@@ -62,9 +65,9 @@ const Dashboard = () => {
           icon="FaArrowUp"
           gap="gap-7 col-span-1"
           iconClass="bg-[#26322c] text-[#2caa98] p-2 rounded-sm flex items-center"
-          money={calcIncomeThisMonth(transaction).toFixed(2)}
+          money={income.toFixed(2)}
           h1class="text-[#4edea3]"
-          para={`${getMonth()} payroll & contract`}
+          para={`${monthName} payroll & contract`}
         >
           <div className="flex justify-between  text-xs lg:text-body-sm mt-auto min-h-auto ">
             <p className="flex items-center bg-[#26322c] text-[#2caa98] rounded-full px-2">
@@ -75,8 +78,7 @@ const Dashboard = () => {
               </span>
             </p>
             <p className="text-on-surface-variant text-[11px] md:text-xs">
-              {((calcIncomeThisMonth(transaction) / targetIncome) * 100).toFixed()}% of
-              target
+              {((income / targetIncome) * 100).toFixed()}% of target
             </p>
           </div>
         </DashboardTotalCard>
@@ -85,7 +87,7 @@ const Dashboard = () => {
           icon="FaArrowDown"
           gap="gap-7 col-span-1"
           iconClass="bg-[#37191b] text-[#cba3b7] p-2 rounded-sm flex items-center"
-          money={calcExpenseThisMonth(transaction).toFixed(2)}
+          money={expense.toFixed(2)}
           h1class="text-[#ffb2b7]"
           para={`Monthly cap: ${totalExpenseLimit || 0}`}
         >
@@ -95,16 +97,13 @@ const Dashboard = () => {
               <span className="font-bold text-[11px] md:text-xs">
                 {" "}
                 {totalExpenseLimit !== ""
-                  ? (
-                      (calcExpenseThisMonth(transaction) / totalExpenseLimit) *
-                      100
-                    ).toFixed()
+                  ? ((expense / totalExpenseLimit) * 100).toFixed()
                   : 0}
                 % under budget limit
               </span>
             </p>
             <p className="text-on-surface-variant text-[11px] md:text-xs">
-              ${(totalExpenseLimit - calcExpenseThisMonth(transaction)).toFixed(2)} left
+              ${(totalExpenseLimit - expense).toFixed(2)} left
             </p>
           </div>
         </DashboardTotalCard>

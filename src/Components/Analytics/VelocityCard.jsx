@@ -1,6 +1,6 @@
-const VelocityCard = ({ title, limit, spent, ICON, text}) => {
-  const hexColor = (text ? text.slice(6, -1) : "#ffffff");
-  
+const VelocityCard = ({ title, limit, spent, ICON, text }) => {
+  const hexColor = text ? text.slice(6, -1) : "#ffffff";
+
   return (
     <div className="p-3 bg-[#201f1f] rounded-md flex flex-col gap-2">
       <div className="flex items-center gap-2">

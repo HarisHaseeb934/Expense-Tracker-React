@@ -3,7 +3,7 @@ import ErrorPage from "./Pages/ErrorPage";
 import Applayout from "./Layout/Applayout";
 import Dashboard from "./Pages/Dashboard";
 import { BalanceProvider } from "./Context/BalanceProvider";
-// import Analytics from "./Pages/Analytics";
+import Analytics from "./Pages/Analytics";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        // path: "/analytics",
-        // element: <Analytics />,
+        path: "/analytics",
+        element: <Analytics />,
       },
     ],
   },

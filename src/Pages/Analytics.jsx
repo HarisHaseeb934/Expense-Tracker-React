@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import CashFlowCard from "../Components/Analytics/CashFlowCard";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { TbArrowWaveLeftUp } from "react-icons/tb";
@@ -7,7 +7,8 @@ import AnalyticsCharts from "../Components/Analytics/AnalyticsCharts";
 import { AiOutlineRise } from "react-icons/ai";
 import { RiCashLine } from "react-icons/ri";
 import Velocity from "../Components/Analytics/Velocity";
-import { InitialContext } from "../Context/BalanceContext";
+import BalanceContext from "../Context/BalanceProvider";
+import { useBalance } from "../../CustomHooks/useBalance";
 
 function getDate(date) {
   const daten = String(date.getDate()).padStart(2, "0");
@@ -45,7 +46,7 @@ const Analytics = () => {
     days: 30,
   });
 
-  const { balance } = useContext(InitialContext);
+  const { balance } = useBalance(BalanceContext);
   const { transaction = [] } = balance;
 
   const { income, expense } = transaction.reduce(

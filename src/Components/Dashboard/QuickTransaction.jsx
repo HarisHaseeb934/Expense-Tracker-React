@@ -5,7 +5,6 @@ import Alert from "./Alert";
 import { BalanceContext } from "../../../CustomHooks/BalanceContext.jsx";
 import { useBalance } from "../../../CustomHooks/useBalance.jsx";
 
-
 const expense = {
   title: "",
   date: "",
@@ -126,6 +125,7 @@ const QuickTransaction = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name + " " + value)
     let text = "";
     let bg = "";
     if (name === "category") {
@@ -230,9 +230,10 @@ const QuickTransaction = () => {
           >
             {isExpense
               ? Object.entries(expenseOptions).map(
-                  ([value, { dataText, dataBg }]) => {
+                  ([value, { dataText, dataBg }], index) => {
                     return (
                       <option
+                        key={index}
                         value={value}
                         data-text={dataText}
                         data-bg={dataBg}
@@ -243,9 +244,10 @@ const QuickTransaction = () => {
                   },
                 )
               : Object.entries(incomeOptions).map(
-                  ([value, { dataText, dataBg }]) => {
+                  ([value, { dataText, dataBg }], index) => {
                     return (
                       <option
+                        key={index}
                         value={value}
                         data-text={dataText}
                         data-bg={dataBg}

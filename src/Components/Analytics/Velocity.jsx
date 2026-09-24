@@ -6,10 +6,11 @@ import { MdLocalMovies } from "react-icons/md";
 import { GiHealthNormal } from "react-icons/gi";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { FaMoneyBills } from "react-icons/fa6";
-import { InitialContext } from "../../Context/BalanceContext";
+import { useBalance } from "../../../CustomHooks/useBalance";
+import BalanceContext from "../../Context/BalanceProvider";
 
 const Velocity = () => {
-  const { balance } = useContext(InitialContext);
+  const { balance } = useBalance(BalanceContext);
   const {
     transaction = [],
     utilitiesBillLimit,
