@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import CashFlowChart from "./CashFlowChart";
+import { getMonths, getPreviousSunday } from "../../../Utils/calc";
 
 const BTN = [
   { id: 1, days: 7, value: "Daily", trailing: "7 Days" },
@@ -48,31 +49,17 @@ const AnalyticsCharts = ({ transaction = [] }) => {
     }
   };
 
-  function getPreviousSunday(dateInput) {
-    const date = new Date(dateInput);
-    const dayOfWeek = date.getDay();
-    date.setDate(date.getDate() - dayOfWeek);
-    return date.toLocaleString().split(",").at(0);
-  }
-
-  function getMonths(dateInput) {
-    const date = new Date(dateInput);
-    let month = date.toDateString().split(" ").at(1);
-    let year = date.toDateString().split(" ").at(3);
-    return `${year}-${month}`;
-  }
-
   let newChart = [];
 
   if (btn.value === "Daily") {
     let chartData = handleChart(transaction, (dateStr) => dateStr);
-    newChart = chartData.slice(-7)
+    newChart = chartData.slice(-7);
   } else if (btn.value === "Weekly") {
     let chartData = handleChart(transaction, getPreviousSunday);
-    newChart = chartData.slice(-4)
+    newChart = chartData.slice(-4);
   } else {
     let chartData = handleChart(transaction, getMonths);
-    newChart = chartData.slice(-6)
+    newChart = chartData.slice(-6);
   }
 
   return (

@@ -3,6 +3,7 @@ import DonutExpenseCard from "./DonutExpenseCard";
 import ExpenseBreakdownCard from "./ExpenseBreakdownCard";
 import { BalanceContext } from "../../../../CustomHooks/BalanceContext.jsx";
 import { useBalance } from "../../../../CustomHooks/useBalance.jsx";
+import { getDate } from "../../../../Utils/calc.js";
 
 const category_map = {
   "bg-[#3d282a]": {
@@ -29,7 +30,6 @@ const labels = ["Largest Expense", "Discretionary", "Under Target"];
 
 const ExpenseBreakdown = () => {
   const { balance, setBalance} = useBalance(BalanceContext);
-  // const  = value
   const [select, setSelect] = useState({
     select: "This Month",
     date: getDate(
@@ -73,15 +73,6 @@ const ExpenseBreakdown = () => {
       amount,
     };
   });
-
-  function getDate(date) {
-    const daten = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = String(date.getFullYear()).padStart(2, "0");
-
-    return `${year}-${month}-${daten}`;
-  }
-  // getDate(new Date(new Date().setDate(new Date().getDate())));
 
   return (
     <div className="col-span-1 md:col-span-2 bg-surface-container-low p-5 rounded-md">

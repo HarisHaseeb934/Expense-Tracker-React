@@ -92,7 +92,7 @@ const QuickTransaction = () => {
 
     let timer = setTimeout(() => {
       setShowAlert(false);
-    }, 1000);
+    }, 3000);
     return () => {
       clearTimeout(timer);
     };

@@ -9,34 +9,7 @@ import { RiCashLine } from "react-icons/ri";
 import Velocity from "../Components/Analytics/Velocity";
 import BalanceContext from "../Context/BalanceProvider";
 import { useBalance } from "../../CustomHooks/useBalance";
-
-function getDate(date) {
-  const daten = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear()).padStart(2, "0");
-  return `${year}-${month}-${daten}`;
-}
-
-const BTN_DATA = [
-  {
-    id: 1,
-    display: "30D",
-    value: getDate(new Date(new Date().setDate(new Date().getDate() - 30))),
-    days: 30,
-  },
-  {
-    id: 2,
-    display: "6 Months",
-    value: getDate(new Date(new Date().setDate(new Date().getDate() - 180))),
-    days: 180,
-  },
-  {
-    id: 3,
-    display: "YTD",
-    value: getDate(new Date(new Date().getFullYear(), 0, 1)),
-    days: 365,
-  },
-];
+import { BTN_DATA, getDate, prevIncomeExpense } from "../../Utils/calc";
 
 const Analytics = () => {
   const [date, setDate] = useState({
@@ -63,37 +36,9 @@ const Analytics = () => {
     { income: 0, expense: 0 },
   );
 
-  function prevIncomeExpense() {
-    let prevDate = "";
-    if (date.display === "30D") {
-      prevDate = getDate(
-        new Date(new Date().setDate(new Date().getDate() - 60)),
-      );
-    } else if (date.display === "6 Months") {
-      prevDate = getDate(
-        new Date(new Date().setDate(new Date().getDate() - 360)),
-      );
-    } else {
-      prevDate = getDate(new Date(new Date().getFullYear(), -12, 1));
-    }
-    const { prevIncome, prevExpense } = transaction.reduce(
-      (acc, trans) => {
-        if (trans.date >= prevDate && trans.date <= date.date) {
-          const amount = Number(trans.amount);
-          if (trans.type === "income") {
-            acc.prevIncome += amount;
-          } else if (trans.type === "expense") {
-            acc.prevExpense += amount;
-          }
-        }
-        return acc;
-      },
-      { prevIncome: 0, prevExpense: 0 },
-    );
-    return { prevIncome, prevExpense };
-  }
+  
 
-  const { prevIncome, prevExpense } = prevIncomeExpense();
+  const { prevIncome, prevExpense } = prevIncomeExpense(date, transaction);
 
   function netCashFlow(income, expense) {
     let curr = income - expense;

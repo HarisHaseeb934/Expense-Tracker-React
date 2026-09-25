@@ -38,11 +38,11 @@ const Dashboard = () => {
   const monthName = getThisMonthName();
   const income = showThisMonthIncome(transaction);
   const expense = showThisMonthExpense(transaction);
-  let totalBal;
+  
   useEffect(() => {
-    totalBal = totalBalanceCalc(balance, setBalance);
+    totalBalanceCalc(balance, setBalance);
   }, [transaction]);
-  console.log(totalBal)
+
   return (
     <>
       <title>Dashboard</title>
@@ -52,7 +52,7 @@ const Dashboard = () => {
           icon="AiOutlineRise"
           gap="gap-5 md:col-span-2 lg:col-span-1"
           iconClass="bg-[#26322c] text-[#2caa98] p-1 rounded-sm flex items-center"
-          money={(totalBal ? totalBal : 0)}
+          money={totalBalance ? totalBalance : 0}
           h1class="text-white"
           para="Avaliable across 1 connected accounts"
         >
